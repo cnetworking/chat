@@ -6,6 +6,9 @@
 
 #include <netinet/in.h>
 
+#define IP "192.168.1.245"
+#define PORT 80
+
 int main() {
     // Create a string for the data that we will send to the client(s)
     char message[256] = "hi all!";
@@ -16,8 +19,8 @@ int main() {
 
     // Define the server address
     struct sockaddr_in server_address;
-    server_address.sin_family = AF_INET;
-    server_address.sin_port = htons(3000);
+    server_address.sin_family = inet_addr(IP);
+    server_address.sin_port = htons(PORT);
     server_address.sin_addr.s_addr = INADDR_ANY;
 
     // Bind the socket to the network
@@ -26,6 +29,7 @@ int main() {
 
     // Start listening to connections
     int max_clients = 5;
+    printf("awaiting connections\n");
     listen(server_socket, max_clients);
 
     // Accept connections from client sockets

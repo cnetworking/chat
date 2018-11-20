@@ -10,5 +10,8 @@ client: $(CLIENT_SRC)
 	$(CC) -o $(BIN)$@ $(CLIENT_SRC)
 server: $(SERVER_SRC)
 	$(CC) -o $(BIN)$@ $(SERVER_SRC)
+all:
+	make client
+	make server
 clean:
 	rm -rf $(BIN)*
