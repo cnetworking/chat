@@ -7,7 +7,7 @@
 #include <netinet/in.h>
 
 #define IP "192.168.1.245"
-#define PORT 80
+#define PORT 3000
 
 int main() {
     // Raw sockets are independent of an actual protocol
@@ -17,9 +17,9 @@ int main() {
 
     // Define the server address
     struct sockaddr_in server_address;
-    server_address.sin_family = inet_addr(IP);
+    server_address.sin_family = INADDR_ANY;
     server_address.sin_port = htons(PORT);
-    server_address.sin_addr.s_addr = INADDR_ANY; // Connecting to localhost
+    server_address.sin_addr.s_addr = inet_addr(IP); // Connecting to localhost
 
     // Make the connection to another socket
     struct sockaddr *ready_address = &server_address;
