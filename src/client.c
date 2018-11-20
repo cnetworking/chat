@@ -35,10 +35,13 @@ int main() {
     }
 
     // Recieve data from the server
-    char server_response[256];
-    recv(client_socket, &server_response, sizeof(server_response), 0);
+    // char server_response[256];
+    // recv(client_socket, &server_response, sizeof(server_response), 0);
+    // printf("server: %s\n", server_response);
 
-    printf("server: %s\n", server_response);
+    // Send data to the server
+    char message[256] = "I'm a client!";
+    send(client_socket, message, sizeof(message), 0);
 
     // Close the socket
     // close(client_socket);

@@ -48,9 +48,13 @@ int main() {
         } else {
             client_sockets[client_count] = client_socket;
             client_count++;
-            break;
+            // break;
         }
         
+
+        char server_response[256];
+        recv(client_socket, &server_response, sizeof(server_response), 0);
+        printf("client: %s\n", server_response);
 
     }
 
