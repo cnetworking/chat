@@ -1,13 +1,12 @@
 SRC = src
 BIN = bin/
 
-CC = g++
-BOOST = -L /usr/local/lib/ -lboost_filesystem
+CC = gcc
 
-SOURCE := $(shell find $(SRC) -name '*.cpp')
+SOURCE := $(shell find $(SRC) -name '*.c')
 HEADERS = $(wildcard *.h)
 
-main: $(SOURCE) $(HEADERS)
-	$(CC) -o $(BIN)$@ $(SOURCE) $(BOOST)
+client: $(SOURCE) $(HEADERS)
+	$(CC) -o $(BIN)$@ $(SOURCE)
 clean:
 	rm -rf $(BIN)*
