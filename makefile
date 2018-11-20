@@ -1,12 +1,14 @@
-SRC = src
+SRC = src/
 BIN = bin/
 
 CC = gcc
 
-SOURCE := $(shell find $(SRC) -name '*.c')
-HEADERS = $(wildcard *.h)
+CLIENT_SRC = $(SRC)client.c
+SERVER_SRC = $(SRC)server.c
 
-client: $(SOURCE) $(HEADERS)
-	$(CC) -o $(BIN)$@ $(SOURCE)
+client: $(CLIENT_SRC)
+	$(CC) -o $(BIN)$@ $(CLIENT_SRC)
+server: $(SERVER_SRC)
+	$(CC) -o $(BIN)$@ $(SERVER_SRC)
 clean:
 	rm -rf $(BIN)*
