@@ -32,19 +32,24 @@ int main() {
 
     if (connection_status == -1) {
         printf("unable to create connection to server\n");
+        printf("error code: %i\n", connection_status);
     }
 
-    // Recieve data from the server
-    // char server_response[256];
-    // recv(client_socket, &server_response, sizeof(server_response), 0);
-    // printf("server: %s\n", server_response);
+    // Main loop
+    while (1) {
+        // Recieve data from the server
+        char server_response[256];
+        recv(client_socket, &server_response, sizeof(server_response), 0);
+        printf("server: %s\n", server_response);
 
-    // Send data to the server
-    char message[256] = "I'm a client!";
-    send(client_socket, message, sizeof(message), 0);
-
+        // Send data to the server
+        char message[256];
+        printf("message: %s", message);
+        send(client_socket, message, sizeof(message), 0);
+    }
+    
     // Close the socket
-    // close(client_socket);
+    close(client_socket);
 
     return 0;
 }
