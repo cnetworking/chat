@@ -7,7 +7,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 
-#define PORT 9002
+#define PORT 3000
 
 int main() {
     // Create a string for the data that we will send to the client(s)

@@ -5,10 +5,11 @@
 #include <sys/socket.h>
 
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <unistd.h>
 
 #define IP "10.0.2.15"
-#define PORT 9002
+#define PORT 3000
 
 int main() {
     // Raw sockets are independent of an actual protocol - might be useful later
@@ -20,7 +21,7 @@ int main() {
     struct sockaddr_in server_address;
     server_address.sin_family = INADDR_ANY;
     server_address.sin_port = htons(PORT);
-    server_address.sin_addr.s_addr = INADDR_ANY;
+    server_address.sin_addr.s_addr = inet_addr(IP);
 
     // Make the connection to another socket
     int connection_status = connect(
