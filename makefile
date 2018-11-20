@@ -2,7 +2,7 @@ SRC = src
 BIN = bin/
 
 CC = g++
-BOOST = -lboost_filesystem-mt
+BOOST = -L /usr/local/lib/ -lboost_filesystem
 
 SOURCE := $(shell find $(SRC) -name '*.cpp')
 HEADERS = $(wildcard *.h)
