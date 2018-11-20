@@ -5,8 +5,9 @@
 #include <sys/socket.h>
 
 #include <netinet/in.h>
+#include <unistd.h>
 
-#define PORT 4000
+#define PORT 3000
 
 int main() {
     // Create a string for the data that we will send to the client(s)
@@ -23,8 +24,11 @@ int main() {
     server_address.sin_addr.s_addr = INADDR_ANY;
 
     // Bind the socket to the network
-    struct sockaddr *ready_address = &server_address;
-    bind(server_socket, ready_address, sizeof(server_address));
+    bind(
+      server_socket,
+      (struct sockaddr *) &server_address,
+      sizeof(server_address)
+    );
 
     // Start listening to connections
     int max_clients = 5;

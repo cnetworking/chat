@@ -5,9 +5,11 @@
 #include <sys/socket.h>
 
 #include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 
-#define IP "192.168.1.245"
-#define PORT 4000
+#define IP "10.0.2.15"
+#define PORT 3000
 
 int main() {
     // Raw sockets are independent of an actual protocol - might be useful later
@@ -22,9 +24,12 @@ int main() {
     server_address.sin_addr.s_addr = inet_addr(IP);
 
     // Make the connection to another socket
-    struct sockaddr *ready_address = &server_address;
-    int connection_status = connect(client_socket, ready_address, sizeof(server_address));
-    
+    int connection_status = connect(
+      client_socket,
+      (struct sockaddr *) &server_address,
+      sizeof(server_address)
+    );
+
     if (connection_status == -1) {
         printf("unable to create connection to server\n");
     }
