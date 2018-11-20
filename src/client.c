@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 
 #include <netinet/in.h>
+#include <unistd.h>
 
 #define IP "10.0.2.15"
 #define PORT 9002
@@ -22,8 +23,11 @@ int main() {
     server_address.sin_addr.s_addr = INADDR_ANY;
 
     // Make the connection to another socket
-    struct sockaddr *ready_address = &server_address;
-    int connection_status = connect(client_socket, ready_address, sizeof(server_address));
+    int connection_status = connect(
+      client_socket,
+      (struct sockaddr *) &server_address,
+      sizeof(server_address)
+    );
 
     if (connection_status == -1) {
         printf("unable to create connection to server\n");
