@@ -6,7 +6,7 @@
 
 #include <netinet/in.h>
 
-#define PORT 3000
+#define PORT 4000
 
 int main() {
     // Create a string for the data that we will send to the client(s)
