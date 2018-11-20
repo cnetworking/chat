@@ -8,7 +8,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#define IP "10.0.2.15"
+#define IP "192.168.1.245"
 #define PORT 3000
 
 int main() {
@@ -41,7 +41,7 @@ int main() {
     printf("server: %s\n", server_response);
 
     // Close the socket
-    close(client_socket);
+    // close(client_socket);
 
     return 0;
 }
