@@ -6,20 +6,11 @@
 #include <sys/socket.h>
 
 #include <netinet/in.h>
+#include <pthread.h>
 #include <unistd.h>
 
 #define PORT 3000
 #define MAX_CLIENTS 5
-
-struct socket_struct {
-    int *socket;
-};
-
-void *read_thread(void *vargp) {
-    char server_response[256];
-    recv(*socket, &server_response, sizeof(server_response), 0);
-    printf("client: %s\n", server_response);
-}
 
 // Use to concat two strings
 char *concat(const char *s1, const char *s2) {
@@ -27,6 +18,28 @@ char *concat(const char *s1, const char *s2) {
     strcpy(result, s1);
     strcat(result, s2);
     return result;
+}
+
+struct socket_struct {
+    int socket;
+};
+
+void *read_thread(void *args) {
+    // Get the contents from the argument (which is type 'struct socket_struct')
+    struct socket_struct *client_socket_struct = args;
+    int socket = client_socket_struct->socket;
+    printf("this socket is %d\n", socket);
+    
+    // Recieve loop
+    while (1) {
+        // Recieve the message (this is blocking)
+        char server_response[256];
+        recv(socket, &server_response, sizeof(server_response), 0);
+        printf("client %d: %s\n", socket, server_response);
+    }
+    
+    return NULL;
+    
 }
 
 int main() {
@@ -59,7 +72,7 @@ int main() {
 
     // Create array of client sockets
     int client_count = 0;
-    pthread_t *client_sockets[MAX_CLIENTS];
+    struct socket_struct *client_sockets[MAX_CLIENTS];
 
     // Start listening to connections
     printf("awaiting connections\n");
@@ -69,18 +82,23 @@ int main() {
 
     // Accept connections from client sockets
     while (client_count < 5) {
+        printf("main loop running\n");
         // Accept the connection
         struct socket_struct *client_socket_struct = malloc(sizeof(struct socket_struct *));
         
         printf("before accept\n");
         client_socket_struct->socket = accept(server_socket, NULL, NULL);
         printf("after accept\n");
+
         if (client_socket_struct->socket == -1) {
             printf("unable to accept client\n");
         } else {
-            client_sockets[client_count] = client_socket;
+            // client_sockets[client_count] = client_socket_struct;
             client_count++;
-            break;
+            pthread_t id;
+            pthread_create(&id, NULL, read_thread, client_socket_struct);
+            pthread_join(id, NULL);
+
         }
     }
     
