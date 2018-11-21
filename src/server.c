@@ -11,7 +11,7 @@
 
 int main() {
     // Create a string for the data that we will send to the client(s)
-    char message[256] = "hi all!";
+    char message[256] = "hi, im the server";
 
     // Create the server socket
     int server_socket;
