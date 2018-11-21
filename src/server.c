@@ -28,7 +28,7 @@ void *read_thread(void *args) {
     // Recieve loop
     while (1) {
         // Recieve the message (this is blocking)
-        char server_response[256];
+        char server_response[MESSAGE_SIZE];
         recv(socket, &server_response, sizeof(server_response), 0);
         printf("client %d: %s", socket, server_response);
     }

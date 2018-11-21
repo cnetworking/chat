@@ -3,7 +3,7 @@
 #include <string.h>
 #include "chat.h"
 
-char *getline(void) {
+char *m_getline() {
     char *line = malloc(100), *linep = line;
     size_t lenmax = 100, len = lenmax;
     int c;

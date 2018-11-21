@@ -45,22 +45,29 @@ int main() {
         loop = 1;
     }
 
+    // Ask the user for a username
+    char username[USERNAME_SIZE];
+    printf("enter your name: ");
+    fgets(username, sizeof(username), stdin);
+    fflush(stdin);
+    
+
     // Main loop
     while (loop) {
         // Ask user for input
-        char *message = malloc(256 + 1);
-        printf("message: ");
-        fgets(message, sizeof(message) + 1, stdin);
+        char message[MESSAGE_SIZE];
+        printf("> ");
+        fgets(message, sizeof(message), stdin);
         fflush(stdin);
-
-        // Recieve data from the server
-        // char server_response[256];
-        // recv(client_socket, &server_response, sizeof(server_response), 0);
-        // printf("server: %s\n", server_response);
 
         // Send data to the server
         send(client_socket, message, sizeof(message), 0);
-        free(message);
+
+        // Recieve data from the server
+        // char server_response[MESSAGE_SIZE];
+        // recv(client_socket, &server_response, sizeof(server_response), 0);
+        // printf("server: %s\n", server_response);
+
     }
     
     // Close the socket
