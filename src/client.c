@@ -50,7 +50,7 @@ int main() {
         // Ask user for input
         char message[256];
         printf("message: ");
-        scanf("%s", message);
+        fgets(message, sizeof(message), stdin);
         printf("\n");
 
         // Recieve data from the server
