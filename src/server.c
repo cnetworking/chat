@@ -29,11 +29,11 @@ int main() {
     server_address.sin_port = htons(PORT);
     server_address.sin_addr.s_addr = INADDR_ANY;
 
-    // Setup recieve timeout
-    struct timeval read_timeout;
-    read_timeout.tv_sec = 0;
-    read_timeout.tv_usec = 10;
-    setsockopt(server_socket, SOL_SOCKET, SO_RCVTIMEO, &read_timeout, sizeof(read_timeout));
+    // // Setup recieve timeout and make recv non blocking. This makes accept block
+    // struct timeval read_timeout;
+    // read_timeout.tv_sec = 0;
+    // read_timeout.tv_usec = 10;
+    // setsockopt(server_socket, SOL_SOCKET, SO_RCVTIMEO, &read_timeout, sizeof(read_timeout));
 
     // Bind the socket to the network
     bind(
