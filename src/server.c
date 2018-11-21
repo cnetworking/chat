@@ -24,6 +24,10 @@ struct socket_struct {
     int socket;
 };
 
+// The array that will hold all of the messages
+char messages[256][256];
+int message_count = 0;
+
 void *read_thread(void *args) {
     // Get the contents from the argument (which is type 'struct socket_struct')
     struct socket_struct *client_socket_struct = args;
@@ -38,15 +42,16 @@ void *read_thread(void *args) {
         printf("client %d: %s\n", socket, server_response);
     }
     
-    return NULL;
+    // char server_response[256];
+    // while (recv(socket, &server_response, sizeof(server_response), 0)>0) {
+    //     printf("Message Received: %s\n", server_response);
+    // }
+    exit(0);
+    
     
 }
 
 int main() {
-    // The array that will hold all of the messages
-    char messages[256][256];
-    int message_count = 0;
-
     // Create the server socket
     int server_socket;
     server_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -81,7 +86,8 @@ int main() {
     // ---------- SETUP COMPLETE ----------
 
     // Accept connections from client sockets
-    while (client_count < 5) {
+    // while (client_count < 5) {
+    while (1) {
         printf("main loop running\n");
         // Accept the connection
         struct socket_struct *client_socket_struct = malloc(sizeof(struct socket_struct *));
@@ -96,8 +102,10 @@ int main() {
             // client_sockets[client_count] = client_socket_struct;
             client_count++;
             pthread_t id;
+            printf("Before Thread\n");
             pthread_create(&id, NULL, read_thread, client_socket_struct);
-            pthread_join(id, NULL);
+            // pthread_join(id, NULL);
+            printf("After Thread\n");
 
         }
     }

@@ -10,8 +10,10 @@ struct mystruct {
 
 void *myThread(void *args) {
     sleep(0.1);
-    struct mystruct *t = args;
-    printf("THING: %d", t->inner_thing);
+    while (1) {
+        
+    }
+    return NULL;
 }
 
 int main() {
@@ -22,7 +24,7 @@ int main() {
     pthread_t thread_id2;
     printf("Before Thread\n");
     pthread_create(&thread_id2, NULL, myThread, args);
-    pthread_join(thread_id2, NULL);
+    // pthread_join(thread_id2, NULL);
     printf("After Thread\n");
 
 
