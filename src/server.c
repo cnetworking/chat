@@ -34,7 +34,6 @@ void *read_thread(void *args) {
     }
     exit(0);
     
-    
 }
 
 int main() {

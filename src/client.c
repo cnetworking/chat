@@ -46,22 +46,24 @@ int main() {
     }
 
     // Ask the user for a username
-    char username[USERNAME_SIZE];
+    char r_username[USERNAME_SIZE];
     printf("enter your name: ");
-    fgets(username, sizeof(username), stdin);
+    fgets(r_username, sizeof(r_username), stdin);
     fflush(stdin);
-    
+    char username[USERNAME_SIZE + 2] = concat(r_username, ": ");
 
     // Main loop
     while (loop) {
         // Ask user for input
-        char message[MESSAGE_SIZE];
+        char message[INPUT_SIZE];
         printf("> ");
         fgets(message, sizeof(message), stdin);
         fflush(stdin);
 
+        char to_send[MESSAGE_SIZE] = concat(username, message);
+        
         // Send data to the server
-        send(client_socket, message, sizeof(message), 0);
+        send(client_socket, to_send, sizeof(to_send), 0);
 
         // Recieve data from the server
         // char server_response[MESSAGE_SIZE];
