@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -9,6 +10,13 @@
 
 #define PORT 3000
 #define MAX_CLIENTS 5
+
+char *concat(const char *s1, const char *s2) {
+    char *result = malloc(strlen(s1) + strlen(s2) + 1);
+    strcpy(result, s1);
+    strcat(result, s2);
+    return result;
+}
 
 int main() {
     // Create the server socket
@@ -20,6 +28,12 @@ int main() {
     server_address.sin_family = INADDR_ANY;
     server_address.sin_port = htons(PORT);
     server_address.sin_addr.s_addr = INADDR_ANY;
+
+    // Setup recieve timeout
+    struct timeval read_timeout;
+    read_timeout.tv_sec = 0;
+    read_timeout.tv_usec = 10;
+    setsockopt(server_socket, SOL_SOCKET, SO_RCVTIMEO, &read_timeout, sizeof(read_timeout));
 
     // Bind the socket to the network
     bind(
@@ -38,11 +52,16 @@ int main() {
 
     // Main server loop
     while (1) {
+        int c = 0;
         // Accept connections from client sockets
         while (client_count < 5) {
+            printf("im in here: %i\n", c);
+            c++;
             // Accept the connection
             int client_socket;
+            printf("before accept\n");
             client_socket = accept(server_socket, NULL, NULL);
+            printf("after accept\n");
             if (client_socket == -1) {
                 printf("unable to accept client\n");
             } else {
@@ -58,6 +77,10 @@ int main() {
             char server_response[256];
             recv(client_sockets[i], &server_response, sizeof(server_response), 0);
             printf("client: %s\n", server_response);
+            char *message = concat("broadcast: ", server_response);
+            for (int i = 0; i < client_count; i++) {
+                send(client_sockets[i], message, sizeof(message), 0);
+            }
         }
 
         // Create a string for the data that we will send to the client(s)

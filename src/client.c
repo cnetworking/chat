@@ -46,12 +46,11 @@ int main() {
 
     // Main loop
     while (loop) {
-        printf("RUNNING MAIN LOOP\n\n");
         // Ask user for input
-        char message[256];
+        char *message = malloc(sizeof(256) + 1);
         printf("message: ");
-        fgets(message, sizeof(message), stdin);
-        printf("\n");
+        fgets(message, sizeof(message) + 1, stdin);
+        printf("you typed: %s\n", message);
 
         // Recieve data from the server
         // char server_response[256];
@@ -60,6 +59,7 @@ int main() {
 
         // Send data to the server
         send(client_socket, message, sizeof(message), 0);
+        free(message);
     }
     
     // Close the socket
