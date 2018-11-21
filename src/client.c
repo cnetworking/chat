@@ -8,6 +8,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
+#include "chat.h"
 #define IP "192.168.1.245"
 #define PORT 3000
 
@@ -47,10 +48,10 @@ int main() {
     // Main loop
     while (loop) {
         // Ask user for input
-        char *message = malloc(sizeof(256) + 1);
+        char *message = malloc(256 + 1);
         printf("message: ");
         fgets(message, sizeof(message) + 1, stdin);
-        printf("you typed: %s\n", message);
+        fflush(stdin);
 
         // Recieve data from the server
         // char server_response[256];

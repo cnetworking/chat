@@ -9,16 +9,9 @@
 #include <pthread.h>
 #include <unistd.h>
 
+#include "chat.h"
 #define PORT 3000
 #define MAX_CLIENTS 5
-
-// Use to concat two strings
-char *concat(const char *s1, const char *s2) {
-    char *result = malloc(strlen(s1) + strlen(s2) + 1);
-    strcpy(result, s1);
-    strcat(result, s2);
-    return result;
-}
 
 struct socket_struct {
     int socket;
