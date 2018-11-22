@@ -1,27 +1,19 @@
-TARGET_EXEC ?= a.out
+SRC = src/
+BIN = bin/
 
-BUILD_DIR ?= ./bin
-SRC_DIRS ?= ./src
+CC = gcc
 
-SRCS := $(shell find $(SRC_DIRS) -name *.c)
-OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
-DEPS := $(OBJS:.o=.d)
+CLIENT_SRC = $(SRC)client.c $(SRC)strings.c
+SERVER_SRC = $(SRC)server.c $(SRC)strings.c
 
-CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
+HEADERS = $(SRC)chat.h
 
-$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LDFLAGS)
-
-# c source
-$(BUILD_DIR)/%.c.o: %.c
-	$(MKDIR_P) $(dir $@)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-.PHONY: clean
-
+client: $(CLIENT_SRC) $(HEADERS)
+	$(CC) -o $(BIN)$@ $(CLIENT_SRC) $(FLAGS)
+server: $(SERVER_SRC) $(HEADERS)
+	$(CC) -o $(BIN)$@ $(SERVER_SRC) $(FLAGS)
+all:
+	make client
+	make server
 clean:
-	$(RM) -r $(BUILD_DIR)
-
--include $(DEPS)
-
-MKDIR_P ?= mkdir -p
+	rm -rf $(BIN)*
