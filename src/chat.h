@@ -13,6 +13,7 @@ struct server_read_thread_args {
 };
 
 struct server_write_thread_args {
+    
     List *messages;
 };
 

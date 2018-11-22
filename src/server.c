@@ -103,7 +103,13 @@ int main() {
     printf("awaiting connections\n");
     listen(server_socket, MAX_CLIENTS);
 
-    // ---------- SETUP COMPLETE ----------
+    // ---------- SOCKET SETUP COMPLETE ----------
+    
+    // Start the writing thread (only need one of these)
+    struct server_write_thread_args *args = malloc(sizeof(struct server_write_thread_args *));
+    args->messages = messages;
+    pthread_t write_id;
+    pthread_create(&id, NULL, write_thread, args);
 
     // Accept connections from client sockets
     while (client_count < 5) {

@@ -7,13 +7,13 @@
 typedef struct {
 	int size;
 	int capacity;
-	struct socket_struct *socket;
+	int socket;
 } Vector;
 
 void vector_init(Vector *vector);
-void vector_append(Vector *vector, struct socket_struct *ss);
+void vector_append(Vector *vector, int value);
 
-struct socket_struct *vector_get(Vector *vector, int index);
+int vector_get(Vector *vector, int index);
 
 void vector_double_capacity_if_full(Vector *vector);
 void vector_free(Vector *vector);
