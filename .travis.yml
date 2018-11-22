@@ -1,9 +1,11 @@
+language: c
 matrix:
   include:
     - os: osx
     osx_image: xcode8
     env:
       - MATRIX_EVAL="brew install gcc && CC=gcc-7"
+    compiler: gcc
     script: make all
 
 before_install:
