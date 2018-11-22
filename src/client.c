@@ -10,6 +10,8 @@
 #include <unistd.h>
 
 #include "chat.h"
+#include "threads/threads.h"
+
 #define IP "192.168.1.245"
 #define PORT 3000
 

@@ -1,23 +1,27 @@
-SRC = src/
-BIN = bin/
+TARGET_EXEC ?= a.out
 
-CC = gcc
-# FLAGS = -g
+BUILD_DIR ?= ./bin
+SRC_DIRS ?= ./src
 
-SOURCE = $(SRC)strings.c $(SRC)getline.c $(SRC)list/list.c
-# SOURCE = $(SRC)strings.c $(SRC)getline.c
-HEADERS = $(SRC)chat.h $(SRC)list/list.h
-HEADERS = $(SRC)chat.h
+SRCS := $(shell find $(SRC_DIRS) -name *.c)
+OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
+DEPS := $(OBJS:.o=.d)
 
-client: $(SRC)client.c $(SOURCE) $(HEADERS)
-	$(CC) -o $(BIN)$@ $(SRC)client.c $(SOURCE) $(FLAGS)
-server: $(SRC)server.c $(SOURCE) $(HEADERS)
-	$(CC) -o $(BIN)$@ $(SRC)server.c $(SOURCE) $(FLAGS)
-list_test: $(SRC)list/list_test.c $(SRC)list/list.c $(SRC)list/list.h
-	$(CC) -o $(BIN)$@ $(SRC)list/list_test.c $(SRC)list/list.c $(FLAGS)
-all:
-	make client
-	make server
-	make list_test
+CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
+
+$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+
+# c source
+$(BUILD_DIR)/%.c.o: %.c
+	$(MKDIR_P) $(dir $@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+.PHONY: clean
+
 clean:
-	rm -rf $(BIN)*
+	$(RM) -r $(BUILD_DIR)
+
+-include $(DEPS)
+
+MKDIR_P ?= mkdir -p
