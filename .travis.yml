@@ -12,7 +12,7 @@
 #   - eval "${MATRIX_EVAL}"
 
 language: c
-os: osx
-osx_image: xcode8
-before_install: eval "brew install gcc"
+# os: osx
+# osx_image: xcode8
+# before_install: eval "brew install gcc"
 script: make all
