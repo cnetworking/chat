@@ -15,12 +15,10 @@ Node *Node_create() {
     return node;
 }
 
-
 void Node_destroy(Node *node) {
     assert(node != NULL);
     free(node);
 }
-
 
 List *List_create() {
     List *list = malloc(sizeof(List));
@@ -31,7 +29,6 @@ List *List_create() {
 
     return list;
 }
-
 
 void List_destroy(List *list) {
     assert(list != NULL);
@@ -47,7 +44,6 @@ void List_destroy(List *list) {
     free(list);
 }
 
-
 void List_append(List *list, char *str) {
     assert(list != NULL);
     assert(str != NULL);
@@ -60,7 +56,6 @@ void List_append(List *list, char *str) {
     node->data = str;
     node->next = Node_create();
 }
-
 
 void List_insert(List *list, int index, char *str) {
     assert(list != NULL);
@@ -89,7 +84,6 @@ void List_insert(List *list, int index, char *str) {
     }
 }
 
-
 char *List_get(List *list, int index) {
     assert(list != NULL);
     assert(0 <= index);
@@ -102,7 +96,6 @@ char *List_get(List *list, int index) {
     }
     return node->data;
 }
-
 
 int List_find(List *list, char *str) {
     assert(list != NULL);
@@ -122,7 +115,6 @@ int List_find(List *list, char *str) {
     }
     return -1;
 }
-
 
 void List_remove(List *list, int index) {
     assert(list != NULL);
@@ -144,7 +136,6 @@ void List_remove(List *list, int index) {
         Node_destroy(node);
     }
 }
-
 
 char *List_pop(List *list, int index) {
     assert(list != NULL);
@@ -171,7 +162,6 @@ char *List_pop(List *list, int index) {
     }
 }
 
-
 int List_length(List *list) {
     assert(list != NULL);
 
@@ -184,7 +174,6 @@ int List_length(List *list) {
 
     return length;
 }
-
 
 void List_print(List *list) {
     assert(list != NULL);
