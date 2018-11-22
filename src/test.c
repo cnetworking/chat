@@ -1,19 +1,17 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-char *input(char *prompt) {
-    char *buffer;
-    size_t bufsize = 32;
-    size_t characters;
-    buffer = (char *)malloc(bufsize *sizeof(char));
-    printf("%s", prompt);
-    characters = getline(&buffer, &bufsize, stdin);
-    return buffer;
-}
+#include <stdio.h>
+#include "chat.h"
 
 int main() {
+    char *name = input("enter your name: ");
+    remove_newline(name);
+    char *color = input("enter your favorite color: ");
+    remove_newline(color);
+    char *food = input("enter your favorite food: ");
+    remove_newline(food);
+
+    printf("START%s %s %sEND", name, color, food);
     
-    printf("%s", input("enter something: "));
     return(0);
 }

@@ -2,15 +2,15 @@ SRC = src/
 BIN = bin/
 
 CC = gcc
+FLAGS = -g
 
-CLIENT_SRC = $(SRC)client.c $(SRC)concat.c
-SERVER_SRC = $(SRC)server.c $(SRC)concat.c
-HEADERS = $(SRC)chat.h
+SOURCE = $(SRC)strings.c $(SRC)getline.c $(SRC)list/list.c
+HEADERS = $(SRC)chat.h $(SRC)list/list.h
 
-client: $(CLIENT_SRC) $(HEADERS)
-	$(CC) -o $(BIN)$@ $(CLIENT_SRC) $(FLAGS)
-server: $(SERVER_SRC) $(HEADERS)
-	$(CC) -o $(BIN)$@ $(SERVER_SRC) $(FLAGS)
+client: $(SRC)client.c $(SOURCE) $(HEADERS)
+	$(CC) -o $(BIN)$@ $(SRC)client.c $(SOURCE) $(FLAGS)
+server: $(SRC)server.c $(SOURCE) $(HEADERS)
+	$(CC) -o $(BIN)$@ $(SRC)server.c $(SERVER_SRC) $(FLAGS)
 all:
 	make client
 	make server

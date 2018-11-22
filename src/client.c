@@ -47,22 +47,25 @@ int main() {
         loop = 1;
     }
 
-
     // Ask the user for a username
     char *raw_username = input("username: ");
-    remove_newline(raw_username);
+    // remove_newline(raw_username);
+    char *username = raw_username;
 
-    char *username = concat(raw_username, ": ");
-    printf("%s\n", username);
+    // char *username = concat(raw_username, ": ");
+    // printf("%s\n", username);
 
     // Main loop
     while (loop) {
         // Ask user for input
         char *message = input("> ");
-        char *to_send = concat(username, message);
+        // remove_newline(message);
+        // char *to_send = concat(username, message);
+        // printf("to send: %s", to_send);
         
         // Send the data to the server
-        send(client_socket, to_send, sizeof(to_send), 0);
+        // send(client_socket, to_send, sizeof(to_send), 0);
+        send(client_socket, message, sizeof(message), 0);
 
         // Recieve data from the server
         // char server_response[MESSAGE_SIZE];

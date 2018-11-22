@@ -18,8 +18,20 @@ struct socket_struct {
 };
 
 // The array that will hold all of the messages
-char messages[256][256];
-int message_count = 0;
+void init_list() {
+    char input[MAX_STR_LEN];
+	node *head, *newNode;
+	head = NULL;
+	printf("Enter a string\n");
+    fgets(input, MAX_STR_LEN, stdin);
+    cleanInput(input);
+    newNode = (node*)malloc(sizeof(node));
+    strcpy(newNode->node_str, input);
+    newNode->next = NULL;
+    if (input[0] != '\0') {
+        head = add_node(head, newNode);
+    }
+}
 
 void *read_thread(void *args) {
     // Get the contents from the argument (which is type 'struct socket_struct')
@@ -33,7 +45,6 @@ void *read_thread(void *args) {
         printf("%s", server_response);
     }
     exit(0);
-    
 }
 
 int main() {
