@@ -1,17 +1,24 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "chat.h"
+
+int *add(int *old_arr, int value) {
+    int old_size = sizeof(old_arr) / sizeof(old_arr[0]);
+    int *new_arr = malloc(sizeof(old_arr) + sizeof(value));
+    for (int i = 0; i < old_size; i++) {
+        new_arr[i] = old_arr[i];
+    }
+    // new_arr[old_size + 1] = value;
+    return new_arr;
+}
 
 int main() {
-    char *name = input("enter your name: ");
-    remove_newline(name);
-    char *color = input("enter your favorite color: ");
-    remove_newline(color);
-    char *food = input("enter your favorite food: ");
-    remove_newline(food);
-
-    printf("START%s %s %sEND", name, color, food);
+    int arr[] = { 1, 2, 3 };
+    int *new_arr = add(arr, 10);
     
-    return(0);
+    for (int i = 0; i < 4; i++) {
+        printf("%d\n", new_arr[i]);
+    }
+    
+    return 0;
 }

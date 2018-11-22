@@ -11,7 +11,7 @@
 
 #include "chat.h"
 
-#define IP "192.168.1.245"
+#define IP "192.168.1.14"
 #define PORT 3000
 
 int main() {

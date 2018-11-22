@@ -16,6 +16,9 @@ server: $(SERVER_SRC) $(HEADERS)
 	$(CC) -o $(BIN)$@ $(SERVER_SRC) $(FLAGS)
 list_test: $(SRC)list/list_test.c $(LIST) $(HEADERS)
 	$(CC) -o $(BIN)$@ $< $(LIST) $(FLAGS)
+sockets:
+	make client
+	make server
 all:
 	make client
 	make server
