@@ -7,7 +7,7 @@
 typedef struct {
 	int size;
 	int capacity;
-	int socket;
+	int *client_sockets;
 } Vector;
 
 void vector_init(Vector *vector);

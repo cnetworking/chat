@@ -14,11 +14,13 @@ HEADERS = $(SRC)chat.h $(SRC)list/list.h $(SRC)vector/vector.h
 client: $(CLIENT_SRC) $(HEADERS)
 	$(CC) -o $(BIN)$@ $(CLIENT_SRC) $(FLAGS)
 server: $(SERVER_SRC) $(HEADERS)
-	$(CC) -o $(BIN)$@ $(SERVER_SRC) $(FLAGS)
+	$(CC) -o $(BIN)$@ $(SERVER_SRC) $(VECTOR) $(FLAGS)
 vector: $(VECTOR) $(HEADERS)
 	$(CC) -o $(BIN)$@ $(SRC)vector/vector_test.c $(VECTOR) $(FLAGS)
 list_test: $(SRC)list/list_test.c $(LIST) $(HEADERS)
 	$(CC) -o $(BIN)$@ $< $(LIST) $(FLAGS)
+test: src/test.c src/vector/vector.c  src/list/list.c
+	$(CC) -o $(BIN)$@ $^ $(FLAGS)
 sockets:
 	make client
 	make server

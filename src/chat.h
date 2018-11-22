@@ -2,6 +2,7 @@
 #define CHAT_H
 
 #include "list/list.h"
+#include "vector/vector.h"
 
 struct socket_struct {
     int socket;
@@ -13,7 +14,7 @@ struct server_read_thread_args {
 };
 
 struct server_write_thread_args {
-    
+    Vector *client_sockets;
     List *messages;
 };
 

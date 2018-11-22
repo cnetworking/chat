@@ -9,7 +9,7 @@ void vector_init(Vector *vector) {
 	vector->capacity = VECTOR_INITIAL_CAPACITY;
 
 	// allocate memory for vector->socket
-	vector->socket = malloc(sizeof(struct socket_struct *) * vector->capacity);
+	vector->client_sockets = malloc(sizeof(int) * vector->capacity);
 }
 
 void vector_append(Vector *vector, int value) {
@@ -17,7 +17,7 @@ void vector_append(Vector *vector, int value) {
 	vector_double_capacity_if_full(vector);
 
 	// append the value and increment vector->size
-	vector->socket[vector->size++] = value;
+	vector->client_sockets[vector->size++] = value;
 }
 
 int vector_get(Vector *vector, int index) {
@@ -25,17 +25,17 @@ int vector_get(Vector *vector, int index) {
 		printf("Index %d out of bounds for vector of size %d\n", index, vector->size);
 		exit(1);
 	}
-	return &vector->socket[index];
+	return vector->client_sockets[index];
 }
 
 void vector_double_capacity_if_full(Vector *vector) {
 	if (vector->size >= vector->capacity) {
 		// double vector->capacity and resize the allocated memory accordingly
 		vector->capacity *= 2;
-		vector->socket = realloc(vector->socket, sizeof(struct socket_struct *) * vector->capacity);
+		vector->client_sockets = realloc(vector->client_sockets, sizeof(int) * vector->capacity);
 	}
 }
 
 void vector_free(Vector *vector) {
-	free(vector->socket);
+	free(vector->client_sockets);
 }
