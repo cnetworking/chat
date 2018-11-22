@@ -2,6 +2,7 @@ SRC = src/
 BIN = bin/
 
 CC = gcc
+FLAGS = -std=c99
 
 LIST = $(SRC)list/list.c
 CLIENT_SRC = $(SRC)client.c $(SRC)strings.c $(LIST)
