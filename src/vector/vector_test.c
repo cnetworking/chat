@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include "vector.h"
+#include "../chat.h"
 
 int main() {
 	// declare and initialize a new vector
 	Vector *vector;
 	vector_init(vector);
 
-	// fill it up with 150 arbitrary values
-	// this should expand capacity up to 200
 	for (int i = 0; i < 20; i++) {
 		vector_append(vector, i);
 	}
