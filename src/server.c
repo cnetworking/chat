@@ -24,18 +24,48 @@ void *read_thread(void *argsp) {
     // Recieve loop
     while (1) {
         // Recieve the message (this is blocking)
-        char server_response[10];
+        char server_response[100];
         char *buffer = "";
         recv(socket, &server_response, sizeof(server_response), 0);
+        printf("%s", server_response);
+        
+        // Add the message to the list of messages
         remove_newline(server_response);
         char *msg = concat(buffer, server_response);
-        List_append(messages, msg);
-        // List_insert(messages, List_length(messages), server_response);
-        // // List_insert(messages, List_length(messages), "dad");
-        printf("%s", server_response);
-        List_print(messages);
+        List_insert(messages, List_length(messages), msg);
     }
     exit(0);
+}
+
+void *write_thread(void *argsp) {
+    // Get the contents of the arguments
+    struct server_write_thread_args *args = argsp;
+    List *messages = args->messages;
+
+    // Setup a queue of messages to be sent
+    int sent_messages = 0;
+    List *queue = List_create();
+
+    while (1) {
+        if (List_length(messages) > sent_messages) {
+            for (int i = sent_messages; i < List_length(messages); i++) {
+                List_insert(messages, List_length(messages),  List_get(messages, i));
+            }
+            sent_messages = List_length(messages);
+        }
+
+        // if (List_length(queue) > 0) {
+        //     char *msg = List_pop(queue);
+        //     for(int i = 0; i < clients.size(); i++) {
+        //         clients.get(i).out.println(msg);
+        //     }
+        // }
+
+        if (List_length(queue) > 0) {
+            char *msg = List_pop(queue, List_length(queue));
+            printf("message in queue: %s", msg);
+        }
+    }
 }
 
 int main() {

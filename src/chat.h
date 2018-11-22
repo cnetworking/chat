@@ -12,6 +12,10 @@ struct server_read_thread_args {
     List *messages;
 };
 
+struct server_write_thread_args {
+    List *messages;
+};
+
 char *concat(const char *s1, const char *s2);
 void remove_newline(char *s);
 char *m_getline();
