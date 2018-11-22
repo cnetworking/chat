@@ -47,28 +47,22 @@ int main() {
         loop = 1;
     }
 
+
     // Ask the user for a username
-    // char *r_username = malloc(16);
-    // printf("enter your name: ");
-    // fgets(r_username, 16, stdin);
-    // remove_newline(r_username);
-    // char *username = malloc(USERNAME_SIZE + 2);
-    // username = concat(r_username, ": ");
+    char *raw_username = input("username: ");
+    remove_newline(raw_username);
+
+    char *username = concat(raw_username, ": ");
+    printf("%s\n", username);
 
     // Main loop
     while (loop) {
         // Ask user for input
-        char *message = malloc(MESSAGE_SIZE);
-        printf("> ");
-        fgets(message, sizeof(message), stdin);
-        // m_remove_newline(message);
-        // printf("you hit enter! and typed '%s'!\n", message);
-        // Send data to the server
-        // char *to_send = malloc(MESSAGE_SIZE);
-        // // to_send = concat(username, message);
-        // to_send = concat("bob: ", "hi");
-        // send(client_socket, to_send, sizeof(to_send), 0);
-        send(client_socket, message, MESSAGE_SIZE, 0);
+        char *message = input("> ");
+        char *to_send = concat(username, message);
+        
+        // Send the data to the server
+        send(client_socket, to_send, sizeof(to_send), 0);
 
         // Recieve data from the server
         // char server_response[MESSAGE_SIZE];
