@@ -17,7 +17,7 @@ void vector_append(Vector *vector, struct socket_struct *ss) {
 	vector_double_capacity_if_full(vector);
 
 	// append the value and increment vector->size
-	vector->socket[vector->size++] = ss;
+	vector->socket[vector->size++] = *ss;
 }
 
 struct socket_struct *vector_get(Vector *vector, int index) {
@@ -25,24 +25,14 @@ struct socket_struct *vector_get(Vector *vector, int index) {
 		printf("Index %d out of bounds for vector of size %d\n", index, vector->size);
 		exit(1);
 	}
-	return vector->socket[index];
-}
-
-void vector_set(Vector *vector, int index, int value) {
-	// zero fill the vector up to the desired index
-	while (index >= vector->size) {
-		vector_append(vector, 0);
-	}
-
-	// set the value at the desired index
-	vector->socket[index] = value;
+	return &vector->socket[index];
 }
 
 void vector_double_capacity_if_full(Vector *vector) {
 	if (vector->size >= vector->capacity) {
 		// double vector->capacity and resize the allocated memory accordingly
 		vector->capacity *= 2;
-		vector->socket = realloc(vector->socket, sizeof(int) * vector->capacity);
+		vector->socket = realloc(vector->socket, sizeof(struct socket_struct *) * vector->capacity);
 	}
 }
 
