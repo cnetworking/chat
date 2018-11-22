@@ -3,37 +3,29 @@
 #include <stdio.h>
 
 #include "chat.h"
-#include "vector/vector.h"
-
 int main() {
 
-
     List *myList = List_create();
+    List_append(myList, "1");
+    List_append(myList, "2");
+    List_append(myList, "3");
+    List_append(myList, "4");
+    List_print(myList);
+    // // declare and initialize a new vector
+    // Vector *vector;
+    // vector_init(vector);
 
-    // declare and initialize a new vector
-    Vector *myVector;
-    vector_init(myVector);
+    // for (int i = 0; i < 20; i++) {
+    //     vector_append(vector, i);
+    // }
 
-    for (int i = 0; i < 20; i++) {
-        vector_append(myVector, i);
-    }
+    // // print out an arbitrary value in the vector
+    // for (int i = 0; i < 20; i++) {
+    //     printf("%i\n", vector_get(vector, i));
+    // }
 
-
-
-    for (int i = 0; i < 20; i++) {
-        printf("%i\n", vector_get(myVector, i));
-    }
-
-    // we're all done playing with our vector, 
-    // so free its underlying data array
-
-
-
-
-    // struct server_write_thread_args *args = malloc(sizeof(struct server_write_thread_args *));
-    // // args->messages = messages;
-    // args->client_sockets = client_sockets;
-    
-    vector_free(myVector);
-    return 0;
+    // // we're all done playing with our vector, 
+    // // so free its underlying data array
+    // vector_free(vector);
+    // return 0;
 }

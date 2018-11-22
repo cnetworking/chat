@@ -21,7 +21,7 @@ void remove_newline(char *s) {
 
 char *input(char *prompt) {
     char *buffer;
-    size_t bufsize = 32;
+    size_t bufsize = 256;
     size_t characters;
     buffer = (char *)malloc(bufsize *sizeof(char));
     printf("%s", prompt);
