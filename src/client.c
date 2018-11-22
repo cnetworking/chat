@@ -16,7 +16,7 @@
 
 int main() {
     printf("# # # # # # # # # # # # # # # # # # # #\n");
-    printf("#     ----- CLIENT INITIATED -----    #\n");
+    printf("#           CLIENT INITIATED          #\n");
     printf("# # # # # # # # # # # # # # # # # # # #\n");
     // Raw sockets are independent of an actual protocol - might be useful later
     // This program uses TCP
