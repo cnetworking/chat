@@ -4,9 +4,9 @@
 
 #include "chat.h"
 
-const int INPUT_SIZE = 128 + 1;
-const int USERNAME_SIZE = 16 + 1;
-const int MESSAGE_SIZE = USERNAME_SIZE + 2 + INPUT_SIZE;
+int INPUT_SIZE = 128 + 1;
+int USERNAME_SIZE = 16 + 1;
+int MESSAGE_SIZE = USERNAME_SIZE + 2 + INPUT_SIZE;
 
 char *concat(const char *s1, const char *s2) {
     char *result = malloc(strlen(s1) + strlen(s2) + 1);
