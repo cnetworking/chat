@@ -2,7 +2,8 @@ SRC = src/
 BIN = bin/
 
 CC = gcc
-FLAGS = -std=c99 -g
+FLAGS = -std=c99
+# FLAGS = -std=c99 -g
 
 LIST = $(SRC)list/list.c
 VECTOR = $(SRC)vector/vector.c
