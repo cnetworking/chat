@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -47,12 +48,12 @@ int main() {
     }
 
     // Ask the user for a username
-    char *r_username = malloc(USERNAME_SIZE);
-    printf("enter your name: ");
-    fgets(r_username, USERNAME_SIZE, stdin);
-    remove_newline(r_username);
-    char *username = malloc(USERNAME_SIZE + 2);
-    username = concat(r_username, ": ");
+    // char *r_username = malloc(16);
+    // printf("enter your name: ");
+    // fgets(r_username, 16, stdin);
+    // remove_newline(r_username);
+    // char *username = malloc(USERNAME_SIZE + 2);
+    // username = concat(r_username, ": ");
 
     // Main loop
     while (loop) {
@@ -61,13 +62,13 @@ int main() {
         printf("> ");
         fgets(message, sizeof(message), stdin);
         // m_remove_newline(message);
-        printf("you hit enter! and typed '%s'!\n", message);
+        // printf("you hit enter! and typed '%s'!\n", message);
         // Send data to the server
         // char *to_send = malloc(MESSAGE_SIZE);
         // // to_send = concat(username, message);
         // to_send = concat("bob: ", "hi");
         // send(client_socket, to_send, sizeof(to_send), 0);
-        send(client_socket, concat(username, message), MESSAGE_SIZE, 0);
+        send(client_socket, message, MESSAGE_SIZE, 0);
 
         // Recieve data from the server
         // char server_response[MESSAGE_SIZE];

@@ -17,6 +17,16 @@ void remove_newline(char *s) {
     }
 }
 
+char *input(char *prompt) {
+    char *buffer;
+    size_t bufsize = 32;
+    size_t characters;
+    buffer = (char *)malloc(bufsize *sizeof(char));
+    printf("%s", prompt);
+    characters = getline(&buffer, &bufsize, stdin);
+    return buffer;
+}
+
 const int INPUT_SIZE = 128 + 1;
 const int USERNAME_SIZE = 16 + 1;
 const int MESSAGE_SIZE = USERNAME_SIZE + 2 + INPUT_SIZE;
