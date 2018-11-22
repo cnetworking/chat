@@ -9,11 +9,11 @@ int main() {
 	// fill it up with 150 arbitrary values
 	// this should expand capacity up to 200
 	for (int i = 0; i < 20; i++) {
-		vector_append(&vector, i + 2);
+		vector_append(&vector, i);
 	}
 
 	// print out an arbitrary value in the vector
-	for (int i = 0; i < 20) {
+	for (int i = 0; i < 20; i++) {
 		printf("%i\n", vector_get(&vector, i));	
 	}
 
