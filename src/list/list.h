@@ -1,17 +1,31 @@
 #ifndef LIST_H
 #define LIST_H
 
-#define MAX_STR_LEN 80
+    typedef struct NodeTag {
+        char *data;
+        struct NodeTag *next;
+    } Node;
 
-typedef struct link_node {
-	char node_str[MAX_STR_LEN];
-	struct link_node *next;
-} node;
+    Node *Node_create();
+    void Node_destroy(Node *node);
 
-int compare_node(struct link_node *n1, struct link_node *n2);
-struct link_node *add_node(struct link_node	*list, struct link_node *node);
-void display_list(struct link_node *head);
-void free_list(node *head);
-void cleanInput(char* input);
+    typedef struct ListTag {
+        struct NodeTag *first;
+    } List;
+
+    List *List_create();
+    void List_destroy(List *list);
+
+    void List_append(List *list, char *str);
+    void List_insert(List *list, int index, char *str);
+
+    char *List_get(List *list, int index);
+    int List_find(List *list, char *str);
+
+    void List_remove(List *list, int index);
+    char *List_pop(List *list, int index);
+
+    int List_length(List *list);
+    void List_print(List *list);
 
 #endif
