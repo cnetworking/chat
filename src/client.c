@@ -54,7 +54,7 @@ int main() {
     // Ask the user for a username
     char *raw_username = input("username: ");
     // remove_newline(raw_username);
-    char *username = raw_username;
+    // char *username = raw_username;
 
     // char *username = concat(raw_username, ": ");
     // printf("%s\n", username);

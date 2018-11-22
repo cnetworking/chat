@@ -16,15 +16,14 @@
 #define MAX_CLIENTS 5
 
 void *read_thread(void *argsp) {
-    // Get the contents from the argument
-    struct server_read_thread_args *args = argsp;
-    struct socket_struct *client_socket_struct = args->socket_struct;
-    int socket = client_socket_struct->socket;
+    // Parse the argument
+    ServerReadThreadArgs *args = argsp;
+    int socket = args->socket;
     List *messages = args->messages;
 
     // Recieve loop
     while (1) {
-        // Recieve the message (this is blocking)
+        // Recieve the message (recv() is blocking)
         char server_response[100];
         char *buffer = "";
         recv(socket, &server_response, sizeof(server_response), 0);
@@ -114,21 +113,21 @@ int main() {
     // Vector *client_sockets;
     // vector_init(client_sockets);
     // declare and initialize a new vector
-    Vector *vector;
-    vector_init(vector);
+    // Vector *vector;
+    // vector_init(vector);
 
-    for (int i = 0; i < 20; i++) {
-        vector_append(vector, i);
-    }
+    // for (int i = 0; i < 20; i++) {
+    //     vector_append(vector, i);
+    // }
 
-    // print out an arbitrary value in the vector
-    for (int i = 0; i < 20; i++) {
-        printf("%i\n", vector_get(vector, i));
-    }
+    // // print out an arbitrary value in the vector
+    // for (int i = 0; i < 20; i++) {
+    //     printf("%i\n", vector_get(vector, i));
+    // }
 
-    // we're all done playing with our vector, 
-    // so free its underlying data array
-    vector_free(vector);    
+    // // we're all done playing with our vector, 
+    // // so free its underlying data array
+    // vector_free(vector);    
 
     // Start the writing thread (only need one of these)
     // Prepare the arguments
@@ -143,17 +142,22 @@ int main() {
     // Accept connections from client sockets
     while (client_count < 5) {
         // Accept the connection
-        struct socket_struct *client_socket_struct = malloc(sizeof(struct socket_struct *));
-        client_socket_struct->socket = accept(server_socket, NULL, NULL);
+        int accepted_socket = accept(server_socket, NULL, NULL);
+
         // vector_append(client_sockets, client_socket_struct->socket);
         
-        struct server_read_thread_args *args = malloc(sizeof(struct server_read_thread_args *));
-        args->socket_struct = client_socket_struct;
-        args->messages = messages;
+        // struct server_read_thread_args *args = malloc(sizeof(struct server_read_thread_args *));
+        // args->socket_struct = client_socket_struct;
+        // args->messages = messages;
 
-        if (client_socket_struct->socket == -1) {
+        if (accepted_socket == -1) {
             printf("unable to accept client\n");
         } else {
+            // Prepare the thread arguments
+            ServerReadThreadArgs *args = malloc(sizeof(ServerReadThreadArgs *));
+            args->messages = messages;
+            args->socket = accepted_socket;
+
             client_count++;
             pthread_t id;
             pthread_create(&id, NULL, read_thread, args);

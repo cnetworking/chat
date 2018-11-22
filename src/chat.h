@@ -4,19 +4,15 @@
 #include "list/list.h"
 #include "vector/vector.h"
 
-struct socket_struct {
+typedef struct server_read_thread_args {
     int socket;
-};
-
-struct server_read_thread_args {
-    struct socket_struct *socket_struct;
     List *messages;
-};
+} ServerReadThreadArgs;
 
-struct server_write_thread_args {
+typedef struct server_write_thread_args {
     Vector *client_sockets;
     List *messages;
-};
+} ServerWriteThreadArgs;
 
 char *concat(const char *s1, const char *s2);
 void remove_newline(char *s);
