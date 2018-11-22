@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "chat.h"
+
+#include "strings.h"
 
 const int INPUT_SIZE = 128 + 1;
 const int USERNAME_SIZE = 16 + 1;

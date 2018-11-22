@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "chat.h"
+
+#include "strings.h"
 
 char *m_getline() {
     char *line = malloc(100), *linep = line;
