@@ -2,7 +2,6 @@
 #define CHAT_H
 
 #include "list/list.h"
-#include "vector/vector.h"
 
 #define MAX_CLIENTS 5
 

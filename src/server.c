@@ -10,7 +10,6 @@
 #include <unistd.h>
 
 #include "chat.h"
-#include "vector/vector.h"
 
 #define PORT 3000
 
@@ -49,7 +48,6 @@ void *write_thread(void *argsp) {
     List *queue = List_create();
 
     while (1) {
-        printf("oh hi\n");
         if (List_length(messages) > sent_messages) {
             for (int i = sent_messages; i < List_length(messages); i++) {
                 List_append(queue, List_get(messages, i));
@@ -58,7 +56,7 @@ void *write_thread(void *argsp) {
         }
 
         if (List_length(queue) > 0) {
-            List_pop(queue, List_length(queue));
+            char *msg = List_pop(queue, List_length(queue) - 1);
             for(int i = 0; i < MAX_CLIENTS; i++) {
                 printf("sending %s to %d\n", msg, client_sockets[i]);
                 send(client_sockets[i], msg, sizeof(msg), 0);
