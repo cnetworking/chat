@@ -12,22 +12,10 @@
 #include <pthread.h>
 
 #include "chat.h"
+#include "io/io.h"
 
 #define IP "192.168.1.8"
 #define PORT 3000
-
-void *read_thread(void *argsp) {
-    // Parse the argument
-    int *client_socket = argsp;
-
-    // Recieve data from the server
-    while (1) {
-        char server_response[256];
-        recv(*client_socket, &server_response, sizeof(server_response), 0);
-        printf("server: %s\n", server_response);
-    }
-    return NULL;
-}
 
 int main() {
     printf("# # # # # # # # # # # # # # # # # # # #\n");
@@ -75,7 +63,7 @@ int main() {
     // printf("%s\n", username);
 
     pthread_t id;
-    pthread_create(&id, NULL, read_thread, &client_socket);
+    pthread_create(&id, NULL, client_read_thread, &client_socket);
 
     // Main loop
     while (loop) {

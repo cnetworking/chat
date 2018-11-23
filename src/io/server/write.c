@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/socket.h>
+
+#include "server.h"
+#include "../../chat.h"
+
+void *server_write_thread(void *argsp) {
+    // Get the contents of the arguments
+    ServerWriteThreadArgs *args = argsp;
+    List *messages = args->messages;
+    int *client_sockets = args->client_sockets;
+
+    // Setup a queue of messages to be sent
+    int sent_messages = 0;
+    List *queue = List_create();
+
+    while (1) {
+        if (List_length(messages) > sent_messages) {
+            for (int i = sent_messages; i < List_length(messages); i++) {
+                List_append(queue, List_get(messages, i));
+            }
+            sent_messages = List_length(messages);
+        }
+
+        if (List_length(queue) > 0) {
+            char *msg = List_pop(queue, List_length(queue) - 1);
+            for(int i = 0; i < MAX_CLIENTS; i++) {
+                printf("sending %s to %d\n", msg, client_sockets[i]);
+                send(client_sockets[i], msg, sizeof(msg), 0);
+            }
+        }
+    }
+}

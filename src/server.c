@@ -10,60 +10,9 @@
 #include <unistd.h>
 
 #include "chat.h"
+#include "io/io.h"
 
 #define PORT 3000
-
-void *read_thread(void *argsp) {
-    // Parse the argument
-    ServerReadThreadArgs *args = argsp;
-    int socket = args->socket;
-    List *messages = args->messages;
-
-    // Recieve loop
-    while (1) {
-        // Recieve the message (recv() is blocking)
-        char server_response[100];
-        char *buffer = "";
-        recv(socket, &server_response, sizeof(server_response), 0);
-        printf("%s", server_response);
-        
-        // Add the message to the list of messages
-        remove_newline(server_response);
-        char *msg = concat(buffer, server_response);
-        List_insert(messages, List_length(messages), msg);
-    }
-    exit(0);
-}
-
-void *write_thread(void *argsp) {
-    printf("i, the write thread, am running\n");
-
-    // Get the contents of the arguments
-    ServerWriteThreadArgs *args = argsp;
-    List *messages = args->messages;
-    int *client_sockets = args->client_sockets;
-
-    // Setup a queue of messages to be sent
-    int sent_messages = 0;
-    List *queue = List_create();
-
-    while (1) {
-        if (List_length(messages) > sent_messages) {
-            for (int i = sent_messages; i < List_length(messages); i++) {
-                List_append(queue, List_get(messages, i));
-            }
-            sent_messages = List_length(messages);
-        }
-
-        if (List_length(queue) > 0) {
-            char *msg = List_pop(queue, List_length(queue) - 1);
-            for(int i = 0; i < MAX_CLIENTS; i++) {
-                printf("sending %s to %d\n", msg, client_sockets[i]);
-                send(client_sockets[i], msg, sizeof(msg), 0);
-            }
-        }
-    }
-}
 
 int main() {
     printf("# # # # # # # # # # # # # # # # # # # #\n");
@@ -110,7 +59,7 @@ int main() {
     
     // Start the thread itself
     pthread_t write_id;
-    pthread_create(&write_id, NULL, write_thread, args);
+    pthread_create(&write_id, NULL, server_write_thread, args);
 
     // Accept connections from client sockets
     while (client_count < 5) {
@@ -130,7 +79,7 @@ int main() {
             args->socket = accepted_socket;
             
             pthread_t id;
-            pthread_create(&id, NULL, read_thread, args);
+            pthread_create(&id, NULL, server_read_thread, args);
         }
     }
     
