@@ -2,6 +2,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <math.h>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -95,4 +96,9 @@ char *get_ip(char *type) {
 
 void clear() {
     system("clear");
+}
+
+int int_len(int i) {
+    return floor(log10(abs(i))) + 1;
+
 }

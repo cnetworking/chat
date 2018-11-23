@@ -17,7 +17,7 @@ void *server_read_thread(void *argsp) {
         char server_response[100];
         char *buffer = "";
         recv(socket, &server_response, sizeof(server_response), 0);
-        printf("%s", server_response);
+        printf("client %i: %s", socket, server_response);
         
         // Add the message to the list of messages
         remove_newline(server_response);

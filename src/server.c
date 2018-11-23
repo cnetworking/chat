@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -26,11 +27,18 @@ int main(int argc, char **argv) {
     char *ipv4 = get_ip("en0");
     int ipv4_size = strlen(ipv4);
     int spaces = 18 - ipv4_size;
+    
+    int port_size = int_len(port);
+    int p_spaces = abs(18 - port_size);
 
     clear();
     printf("# # # # # # # # # # # # # # # # # # # #\n");
     printf("#           SERVER INITIATED          #\n");
-    printf("#           PORT   %i               #\n", port);
+    printf("#           PORT   %i", port);
+    for (int i = 0; i < p_spaces; i++) {
+         printf(" ");
+    }
+    printf(" #\n");
     printf("#           IPv4   %s", ipv4);
     for (int i = 0; i < spaces; i++) {
          printf(" ");

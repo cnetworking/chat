@@ -23,5 +23,6 @@ char *input(char *prompt);
 int to_int(char stringNumber[]);
 char *get_ip(char *type);
 void clear();
+int int_len(int i);
 
 #endif
