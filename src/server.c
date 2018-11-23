@@ -36,12 +36,12 @@ int main(int argc, char **argv) {
     printf("#           SERVER INITIATED          #\n");
     printf("#           PORT   %i", port);
     for (int i = 0; i < p_spaces; i++) {
-         printf(" ");
+        printf(" ");
     }
     printf(" #\n");
     printf("#           IPv4   %s", ipv4);
     for (int i = 0; i < ip_spaces; i++) {
-         printf(" ");
+        printf(" ");
     }
     printf(" #\n");
     printf("# # # # # # # # # # # # # # # # # # # #\n");

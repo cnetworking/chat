@@ -14,9 +14,6 @@
 #include "chat.h"
 #include "io/io.h"
 
-// #define IP "192.168.1.8"
-// #define PORT 3000
-
 int main(int argc, char **argv) {
     int port;
     char *ip;
@@ -39,12 +36,12 @@ int main(int argc, char **argv) {
     printf("#           CLIENT INITIATED          #\n");
     printf("#           PORT   %i", port);
     for (int i = 0; i < p_spaces; i++) {
-         printf(" ");
+        printf(" ");
     }
     printf(" #\n");
     printf("#           IP     %s", ip);
     for (int i = 0; i < ip_spaces; i++) {
-         printf(" ");
+        printf(" ");
     }
     printf(" #\n");
     printf("# # # # # # # # # # # # # # # # # # # #\n");
@@ -90,27 +87,29 @@ int main(int argc, char **argv) {
     // char *username = concat(raw_username, ": ");
     // printf("%s\n", username);
 
-    pthread_t id;
-    pthread_create(&id, NULL, client_read_thread, &client_socket);
+    int t = 0;
+    char *last_msg = malloc(256 * sizeof(char));
 
     // Main loop
     while (loop) {
         // Ask user for input
         char *message = input("> ");
-        // remove_newline(message);
-        // char *to_send = concat(username, message);
-        // printf("to send: %s", to_send);
-        
-        // Send the data to the server
-        // send(client_socket, to_send, sizeof(to_send), 0);
-        send(client_socket, message, sizeof(message), 0);
-
-        
-
+        if (strcmp(message, "\n") != 0) {
+            last_msg = message;
+            send(client_socket, message, sizeof(message), 0);
+        }
+        if (t == 0) {
+            // Assemble the arguments
+            ClientReadThreadArgs *args = malloc(sizeof(ClientReadThreadArgs *));
+            args->socket = &client_socket;
+            args->last_msg = last_msg;
+            pthread_t id;
+            pthread_create(&id, NULL, client_read_thread, args);
+            t = 1;
+        }
     }
     
     // Close the socket
     close(client_socket);
-
     return 0;
 }

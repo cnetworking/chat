@@ -3,21 +3,18 @@ TARGET_EXEC ?= $(EXEC).out
 BUILD_DIR ?= ./build
 SRC_DIRS ?= ./src
 
-check:
+
 ifeq ($(EXEC),server)
-	NOT := client
+    NOT := client
 endif
 ifeq ($(EXEC),client)
-	NOT := server
+    NOT := server
 endif
 
 
 SRCS := $(shell find $(SRC_DIRS) -name *.c -not -name $(NOT).c)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o)
-
-# INC_DIRS := $(shell find $(SRC_DIRS) -type d)
-# INC_FLAGS := $(addprefix -g,$(INC_DIRS))
 
 CPPFLAGS ?= $(INC_FLAGS)
 

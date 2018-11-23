@@ -7,7 +7,9 @@
 
 void *client_read_thread(void *argsp) {
     // Parse the argument
-    int *client_socket = argsp;
+    ClientReadThreadArgs *args = argsp;
+    char *last_msg = args->last_msg;
+    int *client_socket = args->socket;
 
     // Recieve data from the server
     while (1) {

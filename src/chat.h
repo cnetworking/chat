@@ -15,6 +15,11 @@ typedef struct server_write_thread_args {
     List *messages;
 } ServerWriteThreadArgs;
 
+typedef struct client_read_thread_args {
+    int *socket;
+    char *last_msg;
+} ClientReadThreadArgs;
+
 char *concat(const char *s1, const char *s2);
 void remove_newline(char *s);
 char *m_getline();
