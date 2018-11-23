@@ -1,6 +1,14 @@
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <stdio.h>
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <netinet/in.h>
+#include <net/if.h>
+#include <arpa/inet.h>
 
 #include "chat.h"
 
@@ -32,8 +40,8 @@ char *input(char *prompt) {
 int to_int(char stringNumber[]) {
     // 1.
     if (!stringNumber) {
-        printf("Parameter error\n");
-        return NULL;
+        printf("parameter error\n");
+        return -1;
     }
     char numberSign = stringNumber[0];
     int isPositive = 1;
@@ -46,8 +54,8 @@ int to_int(char stringNumber[]) {
             isPositive = 0;
             i++;
         } else {
-            printf("Number sign error: '%c'\n", numberSign);
-            return NULL;
+            printf("number sign error: '%c'\n", numberSign);
+            return -1;
         }
     }
 
@@ -58,7 +66,7 @@ int to_int(char stringNumber[]) {
         int digit = stringNumber[i++] - '0';
         if (digit < 0 || digit > 9) {
             printf("Invalid character '%c' on the position '%d'\n", stringNumber[i - 1],(i - 1));
-            return NULL;
+            return -1;
         }
         number *= 10;
         number += digit;
@@ -68,6 +76,19 @@ int to_int(char stringNumber[]) {
     if (isPositive) {
         return number;
     } else {
-        return -number;
+        printf("error\n");
+        return -1;
     }
+}
+
+char *get_ip(char *type) {
+    int fd;
+    struct ifreq ifr;
+    fd = socket(AF_INET, SOCK_DGRAM, 0);
+    ifr.ifr_addr.sa_family = AF_INET;
+    strncpy(ifr.ifr_name, type, IFNAMSIZ-1);
+    ioctl(fd, SIOCGIFADDR, &ifr);
+    close(fd);
+    char *ipv4 = inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr);
+    return ipv4;
 }

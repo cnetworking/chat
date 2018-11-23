@@ -21,5 +21,6 @@ char *m_getline();
 char *input(char *prompt);
 
 int to_int(char stringNumber[]);
+char *get_ip(char *type);
 
 #endif

@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #include <sys/types.h>
@@ -13,19 +13,29 @@
 #include "io/io.h"
 
 int main(int argc, char **argv) {
-    if (argc != 2) {
+    // Set the server's port number based off of arguments
+    int port;
+    if (argc != 2 && to_int(argv[1]) <= 0) {
         printf("syntax: ./server.out <port>\n");
-        exit(1);
+        exit(-1);
+    } else {
+        port = to_int(argv[1]);
     }
-    int a = 0;
 
-    for(int i = 1; i < 4; i++) {
-        a += atoi(argv[i]);	
-    }
-    int port = argv[1];
+    // Just some code to print this pretty little box
+    char *ipv4 = get_ip("en0");
+    int ipv4_size = strlen(ipv4);
+    printf("SIZE: %i\n", ipv4_size);
+    int spaces = 18 - ipv4_size;
 
     printf("# # # # # # # # # # # # # # # # # # # #\n");
     printf("#           SERVER INITIATED          #\n");
+    printf("#           PORT   %i               #\n", port);
+    printf("#           IPv4   %s", ipv4);
+    for (int i = 0; i < spaces; i++) {
+         printf(" ");
+    }
+    printf(" #\n");
     printf("# # # # # # # # # # # # # # # # # # # #\n");
 
     // The array that will hold all of the messages
