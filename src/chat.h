@@ -20,4 +20,6 @@ void remove_newline(char *s);
 char *m_getline();
 char *input(char *prompt);
 
+int to_int(char stringNumber[]);
+
 #endif

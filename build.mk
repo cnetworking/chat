@@ -3,7 +3,16 @@ TARGET_EXEC ?= $(EXEC).out
 BUILD_DIR ?= ./build
 SRC_DIRS ?= ./src
 
-SRCS := $(shell find $(SRC_DIRS) -name *.c -not -name $(EXEC).c)
+check:
+ifeq ($(EXEC),server)
+	NOT := client
+endif
+ifeq ($(EXEC),client)
+	NOT := server
+endif
+
+
+SRCS := $(shell find $(SRC_DIRS) -name *.c -not -name $(NOT).c)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o)
 

@@ -12,9 +12,18 @@
 #include "chat.h"
 #include "io/io.h"
 
-#define PORT 3000
+int main(int argc, char **argv) {
+    if (argc != 2) {
+        printf("syntax: ./server.out <port>\n");
+        exit(1);
+    }
+    int a = 0;
 
-int main() {
+    for(int i = 1; i < 4; i++) {
+        a += atoi(argv[i]);	
+    }
+    int port = argv[1];
+
     printf("# # # # # # # # # # # # # # # # # # # #\n");
     printf("#           SERVER INITIATED          #\n");
     printf("# # # # # # # # # # # # # # # # # # # #\n");
@@ -29,7 +38,7 @@ int main() {
     // Define the server address
     struct sockaddr_in server_address;
     server_address.sin_family = INADDR_ANY;
-    server_address.sin_port = htons(PORT);
+    server_address.sin_port = htons(port);
     server_address.sin_addr.s_addr = INADDR_ANY;
 
     // Bind the socket to the network
