@@ -17,7 +17,7 @@ typedef struct server_write_thread_args {
 
 typedef struct client_read_thread_args {
     int *socket;
-    char *last_msg;
+    char **last_msg;
 } ClientReadThreadArgs;
 
 char *concat(const char *s1, const char *s2);

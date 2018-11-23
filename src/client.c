@@ -87,25 +87,23 @@ int main(int argc, char **argv) {
     // char *username = concat(raw_username, ": ");
     // printf("%s\n", username);
 
-    int t = 0;
-    char *last_msg = malloc(256 * sizeof(char));
+    // The last message that this client sent
+    char **last_msg = malloc(256 * sizeof(char));
 
+    // Assemble the arguments for the write thread
+    ClientReadThreadArgs *args = malloc(sizeof(ClientReadThreadArgs *));
+    args->socket = &client_socket;
+    args->last_msg = last_msg;
+    pthread_t id;
+    pthread_create(&id, NULL, client_read_thread, args);
     // Main loop
     while (loop) {
         // Ask user for input
         char *message = input("> ");
         if (strcmp(message, "\n") != 0) {
-            last_msg = message;
+            last_msg = &message;
+            printf("====================last message: %s===========", *last_msg);
             send(client_socket, message, sizeof(message), 0);
-        }
-        if (t == 0) {
-            // Assemble the arguments
-            ClientReadThreadArgs *args = malloc(sizeof(ClientReadThreadArgs *));
-            args->socket = &client_socket;
-            args->last_msg = last_msg;
-            pthread_t id;
-            pthread_create(&id, NULL, client_read_thread, args);
-            t = 1;
         }
     }
     
