@@ -25,9 +25,9 @@ int main(int argc, char **argv) {
     // Just some code to print this pretty little box
     char *ipv4 = get_ip("en0");
     int ipv4_size = strlen(ipv4);
-    printf("SIZE: %i\n", ipv4_size);
     int spaces = 18 - ipv4_size;
 
+    clear();
     printf("# # # # # # # # # # # # # # # # # # # #\n");
     printf("#           SERVER INITIATED          #\n");
     printf("#           PORT   %i               #\n", port);

@@ -22,5 +22,6 @@ char *input(char *prompt);
 
 int to_int(char stringNumber[]);
 char *get_ip(char *type);
+void clear();
 
 #endif

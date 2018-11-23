@@ -92,3 +92,7 @@ char *get_ip(char *type) {
     char *ipv4 = inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr);
     return ipv4;
 }
+
+void clear() {
+    system("clear");
+}
