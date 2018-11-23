@@ -65,10 +65,6 @@ void *write_thread(void *argsp) {
     }
 }
 
-// void *write_thread(void *argsp) {
-//     return NULL;
-// }
-
 int main() {
     printf("# # # # # # # # # # # # # # # # # # # #\n");
     printf("#           SERVER INITIATED          #\n");
@@ -76,10 +72,6 @@ int main() {
 
     // The array that will hold all of the messages
     List *messages = List_create();
-    // List_append(messages, "DESPACITO");
-    // List_append(messages, "luis");
-    // List_append(messages, "fonsi");
-    // List_append(messages, "99");
 
     // Create the server socket
     int server_socket;
