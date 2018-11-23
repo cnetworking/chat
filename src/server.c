@@ -13,7 +13,6 @@
 #include "vector/vector.h"
 
 #define PORT 3000
-#define MAX_CLIENTS 5
 
 void *read_thread(void *argsp) {
     // Parse the argument
@@ -38,32 +37,32 @@ void *read_thread(void *argsp) {
 }
 
 void *write_thread(void *argsp) {
+    printf("i, the write thread, am running\n");
+
     // Get the contents of the arguments
-    struct server_write_thread_args *args = argsp;
+    ServerWriteThreadArgs *args = argsp;
     List *messages = args->messages;
+    int *client_sockets = args->client_sockets;
 
     // Setup a queue of messages to be sent
     int sent_messages = 0;
     List *queue = List_create();
 
     while (1) {
+        printf("oh hi\n");
         if (List_length(messages) > sent_messages) {
             for (int i = sent_messages; i < List_length(messages); i++) {
-                List_insert(messages, List_length(messages),  List_get(messages, i));
+                List_append(queue, List_get(messages, i));
             }
             sent_messages = List_length(messages);
         }
 
-        // if (List_length(queue) > 0) {
-        //     char *msg = List_pop(queue);
-        //     for(int i = 0; i < clients.size(); i++) {
-        //         clients.get(i).out.println(msg);
-        //     }
-        // }
-
         if (List_length(queue) > 0) {
             char *msg = List_pop(queue, List_length(queue));
-            printf("message in queue: %s", msg);
+            for(int i = 0; i < MAX_CLIENTS; i++) {
+                printf("sending %s to %d\n", msg, client_sockets[i]);
+                send(client_sockets[i], msg, sizeof(msg), 0);
+            }
         }
     }
 }
@@ -79,10 +78,10 @@ int main() {
 
     // The array that will hold all of the messages
     List *messages = List_create();
-    List_append(messages, "DESPACITO");
-    List_append(messages, "luis");
-    List_append(messages, "fonsi");
-    List_append(messages, "99");
+    // List_append(messages, "DESPACITO");
+    // List_append(messages, "luis");
+    // List_append(messages, "fonsi");
+    // List_append(messages, "99");
 
     // Create the server socket
     int server_socket;
@@ -109,56 +108,37 @@ int main() {
 
     // ---------- SOCKET SETUP COMPLETE ----------
     
-    // declare and initialize a new vector
-    // Vector *client_sockets;
-    // vector_init(client_sockets);
-    // declare and initialize a new vector
-    // Vector *vector;
-    // vector_init(vector);
-
-    // for (int i = 0; i < 20; i++) {
-    //     vector_append(vector, i);
-    // }
-
-    // // print out an arbitrary value in the vector
-    // for (int i = 0; i < 20; i++) {
-    //     printf("%i\n", vector_get(vector, i));
-    // }
-
-    // // we're all done playing with our vector, 
-    // // so free its underlying data array
-    // vector_free(vector);    
+    // The array that stores all of the client sockets
+    int *client_sockets = malloc(sizeof(int) * MAX_CLIENTS);
 
     // Start the writing thread (only need one of these)
-    // Prepare the arguments
-    // struct server_write_thread_args *args = malloc(sizeof(struct server_write_thread_args *));
-    // args->messages = messages;
-    // args->client_sockets = client_sockets;
+    // Prepare the write thread arguments
+    ServerWriteThreadArgs *args = malloc(sizeof(ServerWriteThreadArgs *));
+    args->client_sockets = malloc(sizeof(int) * MAX_CLIENTS);
+    args->client_sockets = client_sockets;
+    args->messages = messages;
     
-    // Start the thread
-    // pthread_t write_id;
-    // pthread_create(&write_id, NULL, write_thread, args);
+    // Start the thread itself
+    pthread_t write_id;
+    pthread_create(&write_id, NULL, write_thread, args);
 
     // Accept connections from client sockets
     while (client_count < 5) {
         // Accept the connection
         int accepted_socket = accept(server_socket, NULL, NULL);
 
-        // vector_append(client_sockets, client_socket_struct->socket);
-        
-        // struct server_read_thread_args *args = malloc(sizeof(struct server_read_thread_args *));
-        // args->socket_struct = client_socket_struct;
-        // args->messages = messages;
-
         if (accepted_socket == -1) {
             printf("unable to accept client\n");
         } else {
-            // Prepare the thread arguments
+            // Add the socket to the list of sockets
+            client_sockets[client_count] = accepted_socket;
+            client_count++;
+
+            // Prepare the read thread arguments
             ServerReadThreadArgs *args = malloc(sizeof(ServerReadThreadArgs *));
             args->messages = messages;
             args->socket = accepted_socket;
-
-            client_count++;
+            
             pthread_t id;
             pthread_create(&id, NULL, read_thread, args);
         }

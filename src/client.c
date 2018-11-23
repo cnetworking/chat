@@ -7,12 +7,27 @@
 
 #include <netinet/in.h>
 #include <arpa/inet.h>
+
 #include <unistd.h>
+#include <pthread.h>
 
 #include "chat.h"
 
 #define IP "192.168.1.8"
 #define PORT 3000
+
+void *read_thread(void *argsp) {
+    // Parse the argument
+    int *client_socket = argsp;
+
+    // Recieve data from the server
+    while (1) {
+        char server_response[256];
+        recv(*client_socket, &server_response, sizeof(server_response), 0);
+        printf("server: %s\n", server_response);
+    }
+    return NULL;
+}
 
 int main() {
     printf("# # # # # # # # # # # # # # # # # # # #\n");
@@ -59,6 +74,9 @@ int main() {
     // char *username = concat(raw_username, ": ");
     // printf("%s\n", username);
 
+    pthread_t id;
+    pthread_create(&id, NULL, read_thread, &client_socket);
+
     // Main loop
     while (loop) {
         // Ask user for input
@@ -71,10 +89,7 @@ int main() {
         // send(client_socket, to_send, sizeof(to_send), 0);
         send(client_socket, message, sizeof(message), 0);
 
-        // Recieve data from the server
-        // char server_response[MESSAGE_SIZE];
-        // recv(client_socket, &server_response, sizeof(server_response), 0);
-        // printf("server: %s\n", server_response);
+        
 
     }
     

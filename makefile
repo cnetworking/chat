@@ -12,6 +12,10 @@ SERVER_SRC = $(SRC)server.c $(SRC)strings.c $(LIST)
 
 HEADERS = $(SRC)chat.h $(SRC)list/list.h $(SRC)vector/vector.h
 
+
+sockets:
+	make client
+	make server
 client: $(CLIENT_SRC) $(HEADERS)
 	$(CC) -o $(BIN)$@ $(CLIENT_SRC) $(FLAGS)
 server: $(SERVER_SRC) $(HEADERS)
@@ -22,9 +26,6 @@ list_test: $(SRC)list/list_test.c $(LIST) $(HEADERS)
 	$(CC) -o $(BIN)$@ $< $(LIST) $(FLAGS)
 test: src/test.c src/vector/vector.c  src/list/list.c
 	$(CC) -o $(BIN)$@ $^ $(FLAGS)
-sockets:
-	make client
-	make server
 all:
 	make client
 	make server

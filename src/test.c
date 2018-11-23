@@ -3,6 +3,8 @@
 #include <stdio.h>
 
 #include "chat.h"
+
+
 int main() {
 
     List *myList = List_create();
@@ -27,5 +29,5 @@ int main() {
     // // we're all done playing with our vector, 
     // // so free its underlying data array
     // vector_free(vector);
-    // return 0;
+    return 0;
 }
