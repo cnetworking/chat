@@ -14,13 +14,41 @@
 #include "chat.h"
 #include "io/io.h"
 
-#define IP "192.168.1.8"
-#define PORT 3000
+// #define IP "192.168.1.8"
+// #define PORT 3000
 
-int main() {
+int main(int argc, char **argv) {
+    int port;
+    char *ip;
+    if (argc < 3 || argc > 3 || to_int(argv[2]) <= 0) {
+        printf("syntax: ./client.out <ip> <port>\n");
+        exit(-1);
+    } else {
+        port = to_int(argv[2]);
+        ip = argv[1];
+    }
+    // Just some code to print this pretty little box
+    int ip_size = strlen(ip);
+    int ip_spaces = 18 - ip_size;
+
+    int port_size = int_len(port);
+    int p_spaces = abs(18 - port_size);
+
+    clear();
     printf("# # # # # # # # # # # # # # # # # # # #\n");
     printf("#           CLIENT INITIATED          #\n");
+    printf("#           PORT   %i", port);
+    for (int i = 0; i < p_spaces; i++) {
+         printf(" ");
+    }
+    printf(" #\n");
+    printf("#           IP     %s", ip);
+    for (int i = 0; i < ip_spaces; i++) {
+         printf(" ");
+    }
+    printf(" #\n");
     printf("# # # # # # # # # # # # # # # # # # # #\n");
+
     // Raw sockets are independent of an actual protocol - might be useful later
     // This program uses TCP
     
@@ -34,9 +62,9 @@ int main() {
     // Define the server address
     struct sockaddr_in server_address;
     server_address.sin_family = INADDR_ANY;
-    server_address.sin_port = htons(PORT);
-    // server_address.sin_addr.s_addr = inet_addr(IP);
-    server_address.sin_addr.s_addr = INADDR_ANY;
+    server_address.sin_port = htons(port);
+    server_address.sin_addr.s_addr = inet_addr(ip);
+    // server_address.sin_addr.s_addr = INADDR_ANY;
 
     // Make the connection to another socket
     int connection_status = connect(

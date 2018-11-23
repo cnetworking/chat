@@ -16,7 +16,7 @@
 int main(int argc, char **argv) {
     // Set the server's port number based off of arguments
     int port;
-    if (argc != 2 && to_int(argv[1]) <= 0) {
+    if (argc < 2 || argc > 2 || to_int(argv[1]) <= 0) {
         printf("syntax: ./server.out <port>\n");
         exit(-1);
     } else {
@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
     // Just some code to print this pretty little box
     char *ipv4 = get_ip("en0");
     int ipv4_size = strlen(ipv4);
-    int spaces = 18 - ipv4_size;
+    int ip_spaces = 18 - ipv4_size;
     
     int port_size = int_len(port);
     int p_spaces = abs(18 - port_size);
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     }
     printf(" #\n");
     printf("#           IPv4   %s", ipv4);
-    for (int i = 0; i < spaces; i++) {
+    for (int i = 0; i < ip_spaces; i++) {
          printf(" ");
     }
     printf(" #\n");
