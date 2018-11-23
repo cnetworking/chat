@@ -1,34 +1,34 @@
 SRC = src/
 BIN = bin/
+BUILD = build/
+MKDIR_P ?= mkdir -p
 
 CC = gcc
 FLAGS = -std=c99
-# FLAGS = -std=c99 -g
 
-LIST = $(SRC)list/list.c
-VECTOR = $(SRC)vector/vector.c
-CLIENT_SRC = $(SRC)client.c $(SRC)strings.c $(LIST)
-SERVER_SRC = $(SRC)server.c $(SRC)strings.c $(LIST)
+server = server.c
+client = client.c
+SOURCE = $(shell find . -name "*.c" -not -name "$(server)" -not -name "$(client)")
+HEADERS = $(shell find . -name "*.h")
 
-HEADERS = $(SRC)chat.h $(SRC)list/list.h $(SRC)vector/vector.h
-
-client: $(CLIENT_SRC) $(HEADERS)
-	$(CC) -o $(BIN)$@ $(CLIENT_SRC) $(FLAGS)
-server: $(SERVER_SRC) $(HEADERS)
-	$(CC) -o $(BIN)$@ $(SERVER_SRC) $(VECTOR) $(FLAGS)
-vector_test: $(VECTOR) $(HEADERS)
-	$(CC) -o $(BIN)$@ $(SRC)vector/vector_test.c $(VECTOR) $(FLAGS)
-list_test: $(SRC)list/list_test.c $(LIST) $(HEADERS)
-	$(CC) -o $(BIN)$@ $< $(LIST) $(FLAGS)
-test: src/test.c src/vector/vector.c  src/list/list.c
-	$(CC) -o $(BIN)$@ $^ $(FLAGS)
+all:
+	make sockets
+	make build
 sockets:
 	make client
 	make server
-all:
-	make client
-	make server
-	make list_test
-	make vector_test
+client: $(SOURCE) $(HEADERS)
+	make checkdir
+	$(CC) -o $(BIN)$@ $(SRC)$($@) $(SOURCE) $(FLAGS)
+server: $(SOURCE) $(HEADERS)
+	make checkdir
+	$(CC) -o $(BIN)$@ $(SRC)$($@) $(SOURCE) $(FLAGS)
+checkdir:
+	$(MKDIR_P) $(dir $(BIN))
+.PHONY: build
+build:
+	make -f build.mk EXEC=server
+	make -f build.mk EXEC=client
 clean:
 	rm -rf $(BIN)*
+	rm -rf $(BUILD)*

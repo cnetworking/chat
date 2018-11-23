@@ -2,7 +2,8 @@
 #define CHAT_H
 
 #include "list/list.h"
-#include "vector/vector.h"
+
+#define MAX_CLIENTS 5
 
 typedef struct server_read_thread_args {
     int socket;
@@ -10,7 +11,7 @@ typedef struct server_read_thread_args {
 } ServerReadThreadArgs;
 
 typedef struct server_write_thread_args {
-    Vector *client_sockets;
+    int *client_sockets;
     List *messages;
 } ServerWriteThreadArgs;
 
