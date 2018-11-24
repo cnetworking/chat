@@ -80,30 +80,51 @@ int main(int argc, char **argv) {
     }
 
     // Ask the user for a username
-    char *raw_username = input("username: ");
-    // remove_newline(raw_username);
-    // char *username = raw_username;
+    // char raw_username[32];
+    // printf("username: ");
+    // fgets(raw_username, sizeof(raw_username), stdin);
+    // // remove_newline(raw_username);
+    // char *username = malloc((strlen(raw_username) + 2) * sizeof(char));
+    // username = concat(raw_username, ": ");
+    // printf("size of username: %lu\n", sizeof(username));
+    // printf("    malloc thing: %lu\n\n\n", (strlen(raw_username) + 2) * sizeof(char));
+    // printf("RAW USERNAME: %s\n", raw_username);
+    // printf("    USERNAME: %s\n", username);
+    
+    // printf("RAW USERNAME SIZE: %lu\n", sizeof(raw_username));
+    // printf("    USERNAME SIZE: %lu\n", sizeof(username));
 
-    // char *username = concat(raw_username, ": ");
-    // printf("%s\n", username);
+    // printf("RAW USERNAME LEN: %lu\n", strlen(raw_username));
+    // printf("    USERNAME LEN: %lu\n", strlen(username));
 
-    // The last message that this client sent
-    char **last_msg = malloc(256 * sizeof(char));
-
-    // Assemble the arguments for the write thread
-    ClientReadThreadArgs *args = malloc(sizeof(ClientReadThreadArgs *));
-    args->socket = &client_socket;
-    args->last_msg = last_msg;
+    
+    
+    
+    
+    
+    // printf("enter a username: ");
+    char username[16];
+    fgets(username, sizeof(username), stdin);
+    strtok(username, "\n");
+    
+    // Call the write thread
     pthread_t id;
-    pthread_create(&id, NULL, client_read_thread, args);
+    pthread_create(&id, NULL, client_read_thread, &client_socket);
+
     // Main loop
     while (loop) {
+        // printf("> ");
         // Ask user for input
-        char *message = input("> ");
+        char message[MSG_SIZE];
+        fgets(message, sizeof(message), stdin);
+        // remove_newline(message);
+
+        // If string is not null
         if (strcmp(message, "\n") != 0) {
-            last_msg = &message;
-            printf("====================last message: %s===========", *last_msg);
-            send(client_socket, message, sizeof(message), 0);
+            remove_newline(message);
+            char *r = malloc(sizeof(char) * (MSG_SIZE + 16 + 1));
+            r = concat(concat(username, ": "), message);
+            send(client_socket, r, sizeof(r), 0);
         }
     }
     

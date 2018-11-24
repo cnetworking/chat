@@ -21,7 +21,7 @@ char *concat(const char *s1, const char *s2) {
 }
 
 void remove_newline(char *s) {
-    for (int i = 0; i < sizeof(s); i++) {
+    for (int i = 0; i < strlen(s); i++) {
         if (s[i] == '\n') {
             s[i] = '\0';
         }
@@ -30,12 +30,18 @@ void remove_newline(char *s) {
 
 char *input(char *prompt) {
     char *buffer;
-    size_t bufsize = 256;
+    size_t bufsize = MSG_SIZE;
     size_t characters;
     buffer = (char *)malloc(bufsize *sizeof(char));
     printf("%s", prompt);
     characters = getline(&buffer, &bufsize, stdin);
     return buffer;
+}
+
+void raw_input(char *prompt, char *buffer, size_t length) {
+    printf("%s", prompt);
+    fflush(stdout);
+    fgets(buffer, length, stdin);
 }
 
 int to_int(char stringNumber[]) {
