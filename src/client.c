@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
     
     
     
-    // printf("enter a username: ");
+    printf("enter a username: ");
     char username[16];
     fgets(username, sizeof(username), stdin);
     strtok(username, "\n");
@@ -113,18 +113,22 @@ int main(int argc, char **argv) {
 
     // Main loop
     while (loop) {
-        // printf("> ");
+        printf("> ");
         // Ask user for input
         char message[MSG_SIZE];
         fgets(message, sizeof(message), stdin);
-        // remove_newline(message);
 
         // If string is not null
         if (strcmp(message, "\n") != 0) {
             remove_newline(message);
-            char *r = malloc(sizeof(char) * (MSG_SIZE + 16 + 1));
+            char *r = malloc(sizeof(char) * MSG_SIZE + 1);
             r = concat(concat(username, ": "), message);
-            send(client_socket, r, sizeof(r), 0);
+            
+            char *copy = malloc(strlen(r) + 1);
+            printf("server: %s-----\n", r);
+            printf("size: %lu-----\n", strlen(r));
+            // printf("THING: %lu\n", sizeof(char) * (1000));
+            send(client_socket, r, strlen(r), 0);
         }
     }
     

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/socket.h>
 
 #include "server.h"
@@ -13,12 +14,12 @@ void *server_read_thread(void *argsp) {
 
     // Recieve loop
     while (1) {
+        printf("im the server and im reading\n");
         // Recieve the message (recv() is blocking)
-        // printf("HI IM THE SERVER'S READ THREAD\n\n");
         char server_response[MSG_SIZE];
         char *buffer = "";
         recv(socket, &server_response, sizeof(server_response), 0);
-        printf("client %i: %s", socket, server_response);
+        printf("buffer: %s", buffer);
         
         // Add the message to the list of messages
         remove_newline(server_response);

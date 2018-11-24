@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/socket.h>
 
 #include "server.h"
@@ -15,6 +16,7 @@ void *server_write_thread(void *argsp) {
     int sent_messages = 0;
     List *queue = List_create();
 
+    // Main loop to write new messages to all of the clients
     while (1) {
         if (List_length(messages) > sent_messages) {
             for (int i = sent_messages; i < List_length(messages); i++) {
@@ -25,8 +27,10 @@ void *server_write_thread(void *argsp) {
 
         if (List_length(queue) > 0) {
             char *msg = List_pop(queue, List_length(queue) - 1);
+            printf("%s", msg);
+            printf("%s", msg);
             for(int i = 0; i < MAX_CLIENTS; i++) {
-                send(client_sockets[i], msg, sizeof(msg), 0);
+                send(client_sockets[i], msg, strlen(msg), 0);
             }
         }
     }

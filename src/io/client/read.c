@@ -14,7 +14,6 @@ void *client_read_thread(void *argsp) {
     while (1) {
         char server_response[MSG_SIZE];
         recv(*client_socket, &server_response, sizeof(server_response), 0);
-        // printf("server: %s\n", server_response);
         printf("%s\n", server_response);
     }
     return NULL;
