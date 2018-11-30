@@ -7,6 +7,8 @@
 #include "../../chat.h"
 
 void *server_write_thread(void *argsp) {
+    printf("server write thread\n");
+
     // Get the contents of the arguments
     ServerWriteThreadArgs *args = argsp;
     List *messages = args->messages;
@@ -27,8 +29,7 @@ void *server_write_thread(void *argsp) {
 
         if (List_length(queue) > 0) {
             char *msg = List_pop(queue, List_length(queue) - 1);
-            printf("%s", msg);
-            printf("%s", msg);
+            printf("MSG: %s", msg);
             for(int i = 0; i < MAX_CLIENTS; i++) {
                 send(client_sockets[i], msg, strlen(msg), 0);
             }

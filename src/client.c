@@ -106,6 +106,10 @@ int main(int argc, char **argv) {
     char username[16];
     fgets(username, sizeof(username), stdin);
     strtok(username, "\n");
+
+    char *b = malloc(sizeof(char) * MSG_SIZE + 1);
+    b = concat(username, " has joined the room.\n");
+    send(client_socket, b, strlen(b), 0);
     
     // Call the write thread
     pthread_t id;
@@ -113,7 +117,6 @@ int main(int argc, char **argv) {
 
     // Main loop
     while (loop) {
-        printf("> ");
         // Ask user for input
         char message[MSG_SIZE];
         fgets(message, sizeof(message), stdin);
@@ -124,9 +127,9 @@ int main(int argc, char **argv) {
             char *r = malloc(sizeof(char) * MSG_SIZE + 1);
             r = concat(concat(username, ": "), message);
             
-            char *copy = malloc(strlen(r) + 1);
-            printf("server: %s-----\n", r);
-            printf("size: %lu-----\n", strlen(r));
+            // char *copy = malloc(strlen(r) + 1);
+            // printf("server: %s-----\n", r);
+            // printf("size: %lu-----\n", strlen(r));
             // printf("THING: %lu\n", sizeof(char) * (1000));
             send(client_socket, r, strlen(r), 0);
         }
