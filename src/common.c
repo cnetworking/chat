@@ -28,22 +28,6 @@ void remove_newline(char *s) {
     }
 }
 
-char *input(char *prompt) {
-    char *buffer;
-    size_t bufsize = MSG_SIZE;
-    size_t characters;
-    buffer = (char *)malloc(bufsize *sizeof(char));
-    printf("%s", prompt);
-    characters = getline(&buffer, &bufsize, stdin);
-    return buffer;
-}
-
-void raw_input(char *prompt, char *buffer, size_t length) {
-    printf("%s", prompt);
-    fflush(stdout);
-    fgets(buffer, length, stdin);
-}
-
 int to_int(char stringNumber[]) {
     // 1.
     if (!stringNumber) {
@@ -106,5 +90,4 @@ void clear() {
 
 int int_len(int i) {
     return floor(log10(abs(i))) + 1;
-
 }

@@ -70,6 +70,7 @@ int main(int argc, char **argv) {
       sizeof(server_address)
     );
     
+    // Check connection status
     if (connection_status == -1) {
         printf("unable to create connection to server\n");
         printf("error code: %i\n", connection_status);
@@ -80,28 +81,6 @@ int main(int argc, char **argv) {
     }
 
     // Ask the user for a username
-    // char raw_username[32];
-    // printf("username: ");
-    // fgets(raw_username, sizeof(raw_username), stdin);
-    // // remove_newline(raw_username);
-    // char *username = malloc((strlen(raw_username) + 2) * sizeof(char));
-    // username = concat(raw_username, ": ");
-    // printf("size of username: %lu\n", sizeof(username));
-    // printf("    malloc thing: %lu\n\n\n", (strlen(raw_username) + 2) * sizeof(char));
-    // printf("RAW USERNAME: %s\n", raw_username);
-    // printf("    USERNAME: %s\n", username);
-    
-    // printf("RAW USERNAME SIZE: %lu\n", sizeof(raw_username));
-    // printf("    USERNAME SIZE: %lu\n", sizeof(username));
-
-    // printf("RAW USERNAME LEN: %lu\n", strlen(raw_username));
-    // printf("    USERNAME LEN: %lu\n", strlen(username));
-
-    
-    
-    
-    
-    
     printf("enter a username: ");
     char username[16];
     fgets(username, sizeof(username), stdin);
@@ -123,14 +102,11 @@ int main(int argc, char **argv) {
 
         // If string is not null
         if (strcmp(message, "\n") != 0) {
+            // Prepare the buffer
             remove_newline(message);
             char *r = malloc(sizeof(char) * MSG_SIZE + 1);
             r = concat(concat(username, ": "), message);
-            
-            // char *copy = malloc(strlen(r) + 1);
-            // printf("server: %s-----\n", r);
-            // printf("size: %lu-----\n", strlen(r));
-            // printf("THING: %lu\n", sizeof(char) * (1000));
+            // Send the msg
             send(client_socket, r, strlen(r), 0);
         }
     }

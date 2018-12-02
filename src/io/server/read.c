@@ -14,11 +14,12 @@ void *server_read_thread(void *argsp) {
 
     // Recieve loop
     while (1) {
-        // Recieve the message (recv() is blocking)
+        // Prepare the buffer
         char server_response[MSG_SIZE];
         char *buffer = "";
         memset(server_response, 0, strlen(server_response));
-        // printf("im the server and im reading\n");
+        
+        // Recieve the message (recv() is blocking)
         recv(socket, &server_response, sizeof(server_response), 0);
         printf("%s\n", server_response);
         

@@ -26,9 +26,6 @@ void *server_write_thread(void *argsp) {
         }
         if (List_length(queue) > 0) {
             char *msg = List_pop(queue, List_length(queue) - 1);
-            // char *msg = List_pop(queue, List_length(queue) - 1);
-
-            // printf("MSG: %s", msg);
             for(int i = 0; i < MAX_CLIENTS; i++) {
                 send(client_sockets[i], msg, strlen(msg), 0);
             }

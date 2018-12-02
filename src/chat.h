@@ -4,7 +4,7 @@
 #include "list/list.h"
 
 #define MAX_CLIENTS 5
-#define MSG_SIZE 10000
+#define MSG_SIZE 512
 
 typedef struct server_read_thread_args {
     int socket;
@@ -19,8 +19,6 @@ typedef struct server_write_thread_args {
 char *concat(const char *s1, const char *s2);
 void remove_newline(char *s);
 char *m_getline();
-char *input(char *prompt);
-void raw_input(char *prompt, char *buffer, size_t length);
 
 int to_int(char stringNumber[]);
 char *get_ip(char *type);
