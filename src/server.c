@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     // Set the server's port number based off of arguments
     int port;
     if (argc < 2 || argc > 2 || to_int(argv[1]) <= 0) {
-        // printf("syntax: ./server.out <port>\n");
+        printf("syntax: ./server.out <port>\n");
         exit(-1);
     } else {
         port = to_int(argv[1]);
@@ -32,19 +32,19 @@ int main(int argc, char **argv) {
     int p_spaces = abs(18 - port_size);
 
     clear();
-    // printf("# # # # # # # # # # # # # # # # # # # #\n");
-    // printf("#           SERVER INITIATED          #\n");
-    // printf("#           PORT   %i", port);
+    printf("# # # # # # # # # # # # # # # # # # # #\n");
+    printf("#           SERVER INITIATED          #\n");
+    printf("#           PORT   %i", port);
     for (int i = 0; i < p_spaces; i++) {
-        // printf(" ");
+        printf(" ");
     }
-    // printf(" #\n");
-    // printf("#           IPv4   %s", ipv4);
+    printf(" #\n");
+    printf("#           IPv4   %s", ipv4);
     for (int i = 0; i < ip_spaces; i++) {
-        // printf(" ");
+        printf(" ");
     }
-    // printf(" #\n");
-    // printf("# # # # # # # # # # # # # # # # # # # #\n");
+    printf(" #\n");
+    printf("# # # # # # # # # # # # # # # # # # # #\n");
 
     // The array that will hold all of the messages
     List *messages = List_create();
@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
     int client_count = 0;
 
     // Start listening to connections
-    // printf("awaiting connections\n");
+    printf("awaiting connections\n");
     listen(server_socket, MAX_CLIENTS);
 
     // ---------- SOCKET SETUP COMPLETE ----------
@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
         int accepted_socket = accept(server_socket, NULL, NULL);
 
         if (accepted_socket == -1) {
-            // printf("unable to accept client\n");
+            printf("unable to accept client\n");
         } else {
             // Add the socket to the list of sockets
             client_sockets[client_count] = accepted_socket;

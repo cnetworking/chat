@@ -17,6 +17,7 @@ void *server_read_thread(void *argsp) {
         // Recieve the message (recv() is blocking)
         char server_response[MSG_SIZE];
         char *buffer = "";
+        memset(server_response, 0, strlen(server_response));
         // printf("im the server and im reading\n");
         recv(socket, &server_response, sizeof(server_response), 0);
         printf("%s\n", server_response);
