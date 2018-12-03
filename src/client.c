@@ -61,7 +61,6 @@ int main(int argc, char **argv) {
     server_address.sin_family = INADDR_ANY;
     server_address.sin_port = htons(port);
     server_address.sin_addr.s_addr = inet_addr(ip);
-    // server_address.sin_addr.s_addr = INADDR_ANY;
 
     // Make the connection to another socket
     int connection_status = connect(
